@@ -115,20 +115,21 @@ sf plugins
 
 ## `sf hello world`
 
-Say hello either to the world or someone you know.
+Say hello.
 
 ```
 USAGE
-  $ sf hello world [--json] [-n <value>]
+  $ sf hello world [--json] [--flags-dir <value>] [-n <value>]
 
 FLAGS
   -n, --name=<value>  [default: World] The name of the person you'd like to say hello to.
 
 GLOBAL FLAGS
-  --json  Format output as json.
+  --flags-dir=<value>  Import flag values from a directory.
+  --json               Format output as json.
 
 DESCRIPTION
-  Say hello either to the world or someone you know.
+  Say hello.
 
   Say hello either to the world or someone you know.
 
@@ -140,6 +141,11 @@ EXAMPLES
   Say hello to someone you know:
 
     $ sf hello world --name Astro
+
+FLAG DESCRIPTIONS
+  -n, --name=<value>  The name of the person you'd like to say hello to.
+
+    This person can be anyone in the world!
 ```
 
 <!-- commandsstop -->
