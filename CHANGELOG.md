@@ -1,3 +1,9 @@
+## [1.0.3](https://github.com/k-capehart/kc-sf-plugin/compare/1.0.2...1.0.3) (2024-05-17)
+
+### Bug Fixes
+
+- **deps:** bump @salesforce/sf-plugins-core from 9.0.1 to 9.0.10 ([ae111fe](https://github.com/k-capehart/kc-sf-plugin/commit/ae111fea7d5fb58bb07d0291a0de426942a0bb73))
+
 ## [1.0.2](https://github.com/k-capehart/kc-sf-plugin/compare/1.0.1...1.0.2) (2024-05-17)
 
 ### Bug Fixes
