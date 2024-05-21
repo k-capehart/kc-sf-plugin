@@ -1,9 +1,6 @@
 import { SfCommand, Flags } from '@salesforce/sf-plugins-core';
-import { Messages } from '@salesforce/core';
-import { SourceTracking } from '@salesforce/source-tracking';
-import { ForceIgnore } from '@salesforce/source-deploy-retrieve';
-import { PreviewFile, compileResults, getConflictFiles, printTables } from '../../utils/previewOutput.js';
-import { buildComponentSet } from '../../utils/deploy.js';
+import { Messages, Org } from '@salesforce/core';
+import { PreviewFile, PreviewResult, Utils, printTables } from '../../utils/previewOutput.js';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
 const messages = Messages.loadMessages('kc-sf-plugin', 'kc.diff');
@@ -15,6 +12,29 @@ export type KcDiffResult = {
   toDelete: PreviewFile[];
   toRetrieve: PreviewFile[];
 };
+
+export type SourceTrackInformation = {
+  retrieveOutput: PreviewResult;
+  deployOutput: PreviewResult;
+};
+
+export type KcDiffFlags = {
+  'target-org': Org;
+  concise: boolean;
+  'flags-dir': string | undefined;
+  json: boolean | undefined;
+};
+
+function combinePreviewResults(retrieveResults: PreviewResult, deployResults: PreviewResult): PreviewResult {
+  const combinedResults: PreviewResult = {
+    ignored: retrieveResults.ignored.concat(deployResults.ignored),
+    conflicts: retrieveResults.conflicts.concat(deployResults.conflicts),
+    toDeploy: retrieveResults.toDeploy.concat(deployResults.toDeploy),
+    toDelete: retrieveResults.toDelete.concat(deployResults.toDelete),
+    toRetrieve: retrieveResults.toRetrieve.concat(deployResults.toRetrieve),
+  };
+  return combinedResults;
+}
 
 export default class KcDiff extends SfCommand<KcDiffResult> {
   public static readonly summary = messages.getMessage('summary');
@@ -38,44 +58,13 @@ export default class KcDiff extends SfCommand<KcDiffResult> {
   public async run(): Promise<KcDiffResult> {
     const { flags } = await this.parse(KcDiff);
 
-    const stl = await SourceTracking.create({
-      org: flags['target-org'],
-      project: this.project!,
-    });
-
-    const forceIgnore = ForceIgnore.findAndCreate(this.project!.getDefaultPackage().path);
-
-    const [retrieveComponentSet, retrieveFilesWithConflicts, remoteDeletes] = await Promise.all([
-      stl.remoteNonDeletesAsComponentSet(),
-      getConflictFiles(stl, false),
-      stl.getChanges({ origin: 'remote', state: 'delete', format: 'SourceComponent' }),
-    ]);
-
-    const [deployComponentSet, deployFilesWithConflicts] = await Promise.all([
-      buildComponentSet({ ...flags, 'target-org': flags['target-org'].getUsername() }, stl),
-      getConflictFiles(stl, false),
-    ]);
-
-    const retrieveOutput = compileResults({
-      componentSet: retrieveComponentSet,
-      projectPath: this.project!.getPath(),
-      filesWithConflicts: retrieveFilesWithConflicts,
-      forceIgnore,
-      baseOperation: 'retrieve',
-      remoteDeletes,
-    });
-
-    const deployOutput = compileResults({
-      componentSet: deployComponentSet,
-      projectPath: this.project!.getPath(),
-      filesWithConflicts: deployFilesWithConflicts,
-      forceIgnore,
-      baseOperation: 'deploy',
-    });
+    const sourceTrackInfo: SourceTrackInformation = await Promise.resolve(
+      Utils.getComponents(this.project, flags, flags['target-org'])
+    );
 
     if (!this.jsonEnabled()) {
-      printTables(retrieveOutput, deployOutput, flags.concise);
+      printTables(sourceTrackInfo.retrieveOutput, sourceTrackInfo.deployOutput, flags.concise);
     }
-    return retrieveOutput;
+    return combinePreviewResults(sourceTrackInfo.retrieveOutput, sourceTrackInfo.deployOutput);
   }
 }

@@ -3,7 +3,7 @@ import { isAbsolute, relative, resolve } from 'node:path';
 import { ux } from '@oclif/core';
 import { StandardColors } from '@salesforce/sf-plugins-core';
 import chalk from 'chalk';
-import { Messages } from '@salesforce/core';
+import { Messages, Org, SfProject } from '@salesforce/core';
 import {
   ComponentSet,
   DestructiveChangesType,
@@ -17,7 +17,9 @@ import {
 import { filePathsFromMetadataComponent } from '@salesforce/source-deploy-retrieve/lib/src/utils/filePathGenerator.js';
 
 import { SourceTracking } from '@salesforce/source-tracking';
+import { KcDiffFlags, SourceTrackInformation } from '../commands/kc/diff.js';
 import { isSourceComponentWithXml } from './types.js';
+import { buildComponentSet } from './deploy.js';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
 const messages = Messages.loadMessages('kc-sf-plugin', 'previewMessages');
@@ -278,3 +280,49 @@ export const getConflictFiles = async (stl?: SourceTracking, ignore = false): Pr
   !stl || ignore
     ? new Set<string>()
     : new Set((await stl.getConflicts()).flatMap((conflict) => (conflict.filenames ?? []).map((f) => resolve(f))));
+
+// Need to put this function in an exportable class in order to stub it
+export class Utils {
+  public static async getComponents(
+    project: SfProject | undefined,
+    flags: KcDiffFlags,
+    targetOrg: Org
+  ): Promise<SourceTrackInformation> {
+    const stl = await SourceTracking.create({
+      org: targetOrg,
+      project: project!,
+    });
+
+    const forceIgnore = ForceIgnore.findAndCreate(project!.getDefaultPackage().path);
+
+    const [retrieveComponentSet, retrieveFilesWithConflicts, remoteDeletes] = await Promise.all([
+      stl.remoteNonDeletesAsComponentSet(),
+      getConflictFiles(stl, false),
+      stl.getChanges({ origin: 'remote', state: 'delete', format: 'SourceComponent' }),
+    ]);
+
+    const [deployComponentSet, deployFilesWithConflicts] = await Promise.all([
+      buildComponentSet({ ...flags, 'target-org': targetOrg.getUsername() }, stl),
+      getConflictFiles(stl, false),
+    ]);
+
+    const retrieveOutput = compileResults({
+      componentSet: retrieveComponentSet,
+      projectPath: project!.getPath(),
+      filesWithConflicts: retrieveFilesWithConflicts,
+      forceIgnore,
+      baseOperation: 'retrieve',
+      remoteDeletes,
+    });
+
+    const deployOutput = compileResults({
+      componentSet: deployComponentSet,
+      projectPath: project!.getPath(),
+      filesWithConflicts: deployFilesWithConflicts,
+      forceIgnore,
+      baseOperation: 'deploy',
+    });
+
+    return { retrieveOutput, deployOutput };
+  }
+}
