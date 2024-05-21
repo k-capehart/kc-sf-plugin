@@ -46,7 +46,7 @@ sf plugins
 
 ## `sf kc diff`
 
-View differences between the local project and a target org.
+Preview a retrieval and deploy to see what will be retrieved from the org, the potential conflicts, and the ignored files.
 
 ```
 USAGE
@@ -54,26 +54,35 @@ USAGE
 
 FLAGS
   -o, --target-org=<value>  (required) Login username or alias for the target org.
-      --concise             Show only the changes that will be retrieved; omits files that are forceignored.
+      --concise             Omits files that are forceignored.
+
+GLOBAL FLAGS
+  --flags-dir=<value>  Import flag values from a directory.
+  --json               Format output as json.
 
 DESCRIPTION
-You must run this command from within a project with source tracking.
+  Preview a retrieval and deploy to see what will be retrieved from the org, the potential conflicts, and the ignored
+  files.
 
-The command outputs a table that describes the difference between your local project and an org. It is equivalent to running both the "<%= config.bin %> project retrieve preview" and "<%= config.bin %> project deploy preview" commands.
+  You must run this command from within a project that has source tracking.
+
+  The command outputs a table that describes the difference between your local project and an org. It is equivalent to
+  running both the "sf project retrieve preview" and "sf project deploy preview" commands.
 
 EXAMPLES
   View differences between local org and an org with the alias "my-org"
-
-    $ sf kc diff --target-org my-org
-
+  $ sf kc diff --target-org my-org
   View differences between local org and the default org, omitting ignored files
-
-    $ sf kc diff --concise
+  $ sf kc diff --concise
 
 FLAG DESCRIPTIONS
-  -n, --name=<value>  The name of the person you'd like to say hello to.
+  -o, --target-org=<value>  Login username or alias for the target org.
 
-    This person can be anyone in the world!
+    Overrides your default org.
+
+  --concise  Omits files that are forceignored.
+
+    Ignore files by placing them in your .forceignore and using this flag.
 ```
 
 <!-- commandsstop -->

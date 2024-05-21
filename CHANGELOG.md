@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/k-capehart/kc-sf-plugin/compare/1.0.3...1.1.0) (2024-05-21)
+
+### Features
+
+- diff command with basic test ([5968779](https://github.com/k-capehart/kc-sf-plugin/commit/5968779ea3de0e3cc83264aacb9a43b5ca30c587))
+- diff local project with org ([6f8b98a](https://github.com/k-capehart/kc-sf-plugin/commit/6f8b98a4f5fae4b86fa20c9f81d321c717bc7d98))
+
 ## [1.0.3](https://github.com/k-capehart/kc-sf-plugin/compare/1.0.2...1.0.3) (2024-05-17)
 
 ### Bug Fixes
