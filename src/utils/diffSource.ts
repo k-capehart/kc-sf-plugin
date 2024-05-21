@@ -1,3 +1,5 @@
+// Much of the code in this file is taken from: https://github.com/salesforcecli/plugin-deploy-retrieve
+
 import { isAbsolute, relative, resolve } from 'node:path';
 
 import { ux } from '@oclif/core';
@@ -13,13 +15,14 @@ import {
   MetadataType,
   SourceComponent,
   RegistryAccess,
+  ComponentSetBuilder,
 } from '@salesforce/source-deploy-retrieve';
 import { filePathsFromMetadataComponent } from '@salesforce/source-deploy-retrieve/lib/src/utils/filePathGenerator.js';
 
 import { SourceTracking } from '@salesforce/source-tracking';
+import { Optional } from '@salesforce/ts-types';
 import { KcDiffFlags, SourceTrackInformation } from '../commands/kc/diff.js';
-import { isSourceComponentWithXml } from './types.js';
-import { buildComponentSet } from './deploy.js';
+import { API, isSourceComponentWithXml } from './types.js';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
 const messages = Messages.loadMessages('kc-sf-plugin', 'previewMessages');
@@ -43,6 +46,23 @@ export type PreviewResult = {
   toDelete: PreviewFile[];
   toRetrieve: PreviewFile[];
 };
+
+export type DeployOptions = {
+  api: API;
+  'target-org': string;
+  'api-version'?: string;
+  manifest?: string;
+  metadata?: string[];
+  'source-dir'?: string[];
+  concise?: boolean;
+};
+
+/** Manifest is expected.  You cannot pass metadata and source-dir array--use those to get a manifest */
+export type CachedOptions = Omit<DeployOptions, 'wait' | 'metadata' | 'source-dir'> & {
+  wait: number;
+  /** whether the user passed in anything for metadata-dir (could be a folder, could be a zip) */
+  isMdapi: boolean;
+} & Partial<Pick<DeployOptions, 'manifest'>>;
 
 const ensureAbsolutePath = (f: string): string => (isAbsolute(f) ? f : resolve(f));
 
@@ -324,5 +344,60 @@ export class Utils {
     });
 
     return { retrieveOutput, deployOutput };
+  }
+}
+
+// Formerly deploy.ts
+
+export async function buildComponentSet(opts: Partial<DeployOptions>, stl?: SourceTracking): Promise<ComponentSet> {
+  // if you specify nothing, you'll get the changes, like sfdx push, as long as there's an stl
+  if (!opts['source-dir'] && !opts.manifest && !opts.metadata && stl) {
+    /** localChangesAsComponentSet returned an array to support multiple sequential deploys.
+     * `sf` chooses not to support this so we force one ComponentSet
+     */
+    const cs = (await stl.localChangesAsComponentSet(false))[0] ?? new ComponentSet(undefined, stl.registry);
+    // stl produces a cs with api version already set.  command might have specified a version.
+    if (opts['api-version']) {
+      cs.apiVersion = opts['api-version'];
+      cs.sourceApiVersion = opts['api-version'];
+    }
+    return cs;
+  }
+
+  return ComponentSetBuilder.build({
+    apiversion: opts['api-version'],
+    sourceapiversion: await getSourceApiVersion(),
+    sourcepath: opts['source-dir'],
+    ...(opts.manifest
+      ? {
+          manifest: {
+            manifestPath: opts.manifest,
+            directoryPaths: await getPackageDirs(),
+          },
+        }
+      : {}),
+    ...(opts.metadata ? { metadata: { metadataEntries: opts.metadata, directoryPaths: await getPackageDirs() } } : {}),
+    projectDir: stl?.projectPath,
+  });
+}
+
+// Formerly project.ts
+
+export async function getPackageDirs(): Promise<string[]> {
+  const project = await SfProject.resolve();
+  return project.getUniquePackageDirectories().map((pDir) => pDir.fullPath);
+}
+
+export async function getSourceApiVersion(): Promise<Optional<string>> {
+  const project = await SfProject.resolve();
+  const projectConfig = await project.resolveProjectConfig();
+  return projectConfig.sourceApiVersion as Optional<string>;
+}
+
+export async function getOptionalProject(): Promise<SfProject | undefined> {
+  try {
+    return await SfProject.resolve();
+  } catch (e) {
+    return undefined;
   }
 }

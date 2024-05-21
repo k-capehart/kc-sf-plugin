@@ -2,7 +2,7 @@ import { TestContext } from '@salesforce/core/testSetup';
 import { expect } from 'chai';
 import { stubSfCommandUx } from '@salesforce/sf-plugins-core';
 import KcDiff, { SourceTrackInformation } from '../../../src/commands/kc/diff.js';
-import { PreviewFile, Utils } from './../../../src/utils/previewOutput.js';
+import { PreviewFile, Utils } from '../../../src/utils/diffSource.js';
 
 const stubSourceTracking: SourceTrackInformation = {
   retrieveOutput: {

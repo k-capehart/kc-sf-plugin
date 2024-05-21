@@ -1,6 +1,6 @@
 import { SfCommand, Flags } from '@salesforce/sf-plugins-core';
 import { Messages, Org } from '@salesforce/core';
-import { PreviewFile, PreviewResult, Utils, printTables } from '../../utils/previewOutput.js';
+import { PreviewFile, PreviewResult, Utils, printTables } from '../../utils/diffSource.js';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
 const messages = Messages.loadMessages('kc-sf-plugin', 'kc.diff');
