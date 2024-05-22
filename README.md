@@ -1,6 +1,6 @@
 # kc-sf-plugin
 
-[![NPM](https://img.shields.io/npm/v/kc-sf-plugin.svg?label=kc-sf-plugin)](https://www.npmjs.com/package/kc-sf-plugin) [![Downloads/week](https://img.shields.io/npm/dw/kc-sf-plugin.svg)](https://npmjs.org/package/kc-sf-plugin) [![License](https://img.shields.io/badge/License-BSD%203--Clause-brightgreen.svg)](https://raw.githubusercontent.com/salesforcecli/kc-sf-plugin/main/LICENSE.txt)
+[![NPM](https://img.shields.io/npm/v/kc-sf-plugin.svg?label=kc-sf-plugin)](https://www.npmjs.com/package/kc-sf-plugin) [![Downloads/week](https://img.shields.io/npm/dw/kc-sf-plugin.svg)](https://npmjs.org/package/kc-sf-plugin) [![License](https://img.shields.io/badge/License-BSD%203--Clause-brightgreen.svg)](https://github.com/k-capehart/kc-sf-plugin/blob/main/LICENSE)
 
 This plugin is bundled with the [Salesforce CLI](https://developer.salesforce.com/tools/sfdxcli). For more information on the CLI, read the [getting started guide](https://developer.salesforce.com/docs/atlas.en-us.sfdx_setup.meta/sfdx_setup/sfdx_setup_intro.htm).
 
@@ -53,7 +53,8 @@ USAGE
   $ sf kc diff -o <value> [--json] [--flags-dir <value>] [--concise]
 
 FLAGS
-  -o, --target-org=<value>  (required) Login username or alias for the target org.
+  -o, --target-org=<value>  (required) [default: kyleacapehart@gmail.com.dev] Login username or alias for the target
+                            org.
       --concise             Omits files that are forceignored.
 
 GLOBAL FLAGS
@@ -84,5 +85,7 @@ FLAG DESCRIPTIONS
 
     Ignore files by placing them in your .forceignore and using this flag.
 ```
+
+_See code: [src/commands/kc/diff.ts](https://github.com/k-capehart/kc-sf-plugin/blob/v1.1.2/src/commands/kc/diff.ts)_
 
 <!-- commandsstop -->
