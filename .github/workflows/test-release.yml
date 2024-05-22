@@ -19,6 +19,8 @@ jobs:
           always-auth: true
       - run: yarn
       - run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
+        env:
+          NPM_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       - run: yarn publish
         env:
           NPM_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
