@@ -2,6 +2,19 @@
   "name": "kc-sf-plugin",
   "description": "Various commands for enabling salesforce development with the sf cli",
   "version": "1.1.0",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com",
+    "access": "public"
+  },
+  "main": "src/index.ts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/k-capehart/kc-sf-plugin.git"
+  },
+  "bugs": {
+    "url": "https://github.com/k-capehart/kc-sf-plugin/issues"
+  },
+  "homepage": "https://github.com/k-capehart/kc-sf-plugin#readme",
   "dependencies": {
     "@oclif/core": "^3.26.2",
     "@salesforce/core": "^7.3.8",
@@ -71,9 +84,6 @@
     "test:nuts": "nyc mocha \"**/*.nut.ts\" --slow 4500 --timeout 600000 --parallel",
     "test:only": "wireit",
     "version": "oclif readme"
-  },
-  "publishConfig": {
-    "access": "public"
   },
   "wireit": {
     "build": {

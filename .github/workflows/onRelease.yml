@@ -29,9 +29,10 @@ jobs:
       # Setup .npmrc file to publish to npm
       - uses: actions/setup-node@v4
         with:
-          node-version: '20.x'
+          node-version: 20.x
           registry-url: 'https://registry.npmjs.org'
-      - run: npm ci
-      - run: npm publish --provenance --access public
+          always-auth: true
+      - run: yarn
+      - run: yarn publish
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
