@@ -13,10 +13,25 @@ export enum API {
   REST = 'REST',
 }
 
+export enum TemplateFiles {
+  ApexClassDefinition = 'ApexClassDefinition.txt',
+  ApexTriggerDefinition = 'ApexTriggerDefinition.txt',
+  SObjectTrigger = 'SObjectTrigger.txt',
+  SObjectHandler = 'SObjectTriggerHandler.txt',
+  SObjectHelper = 'SObjectTriggerHelper.txt',
+  SObjectHelperTest = 'SObjectTriggerHelper_Test.txt',
+  TriggerHandlerVirtualClass = 'TriggerHandlerVirtualClass.txt',
+  TriggerHandlerVirtualClassTest = 'TriggerHandlerVirtualClass_Test.txt',
+}
+
 export type PathInfo = {
   type: 'directory' | 'file';
   path: string;
 };
+
+export type ApexFileType = 'class' | 'trigger';
+
+export const apiVersion: string = '60.0';
 
 /** validates source component with fullname, type, and xml props */
 export const isSourceComponent = (sc: ComponentLike): sc is SourceComponent =>
