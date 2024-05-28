@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField>
+    <fullName>{{sobject}}__c</fullName>
+    <type>Checkbox</type>
+    <inlineHelpText>Skips automation for the {{sobject}} object</inlineHelpText>
+    <defaultValue>false</defaultValue>
+    <description>Skips automation</description>
+    <label>{{sobject}}</label>
+    <securityClassification>Internal</securityClassification>
+</CustomField>

@@ -23,17 +23,20 @@
     "@salesforce/source-tracking": "^6.2.1",
     "@salesforce/ts-sinon": "^1.4.19",
     "@salesforce/ts-types": "^2.0.9",
-    "chalk": "^5.3.0"
+    "chalk": "^5.3.0",
+    "husky": "^9.0.11"
   },
   "devDependencies": {
     "@oclif/plugin-command-snapshot": "^5.1.4",
-    "@salesforce/cli-plugins-testkit": "^5.2.0",
+    "@salesforce/cli-plugins-testkit": "^5.3.8",
     "@salesforce/dev-scripts": "^9.0.0",
+    "@types/yeoman-assert": "^3.1.4",
     "eslint-plugin-sf-plugin": "^1.18.3",
     "oclif": "^4.8.1",
     "shx": "0.3.4",
     "ts-node": "^10.9.2",
-    "typescript": "^5.4.5"
+    "typescript": "^5.4.5",
+    "yeoman-assert": "^3.1.1"
   },
   "engines": {
     "node": ">=18.0.0"
@@ -62,8 +65,13 @@
       "@oclif/plugin-help"
     ],
     "topics": {
-      "hello": {
-        "description": "Commands to say hello."
+      "kc": {
+        "description": "custom commands built by github.com/k-capehart",
+        "subtopics": {
+          "trigger-framework": {
+            "description": "commands for auto generating trigger frameworks"
+          }
+        }
       }
     },
     "flexibleTaxonomy": true
@@ -77,6 +85,9 @@
     "docs": "sf-docs",
     "format": "wireit",
     "lint": "wireit",
+    "postinstall": "yarn husky install",
+    "postpack": "shx rm -f oclif.manifest.json oclif.lock",
+    "prepack": "sf-prepack",
     "test": "wireit",
     "test:nuts": "nyc mocha \"**/*.nut.ts\" --slow 4500 --timeout 600000 --parallel",
     "test:only": "wireit",
@@ -90,7 +101,7 @@
       ]
     },
     "compile": {
-      "command": "tsc -p . --pretty --incremental",
+      "command": "tsc -p . --pretty --incremental && cp -r src/templates/ lib/templates/",
       "files": [
         "src/**/*.ts",
         "**/tsconfig.json",

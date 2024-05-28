@@ -1,0 +1,5 @@
+public with sharing class {{sobject}}TriggerHandler extends TriggerHandler {
+    public override Boolean isDisabled() {
+        return BypassAutomation__c.getInstance().{{sobject}}__c;
+    }
+}
