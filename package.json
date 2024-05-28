@@ -29,6 +29,7 @@
   "devDependencies": {
     "@oclif/plugin-command-snapshot": "^5.1.4",
     "@salesforce/cli-plugins-testkit": "^5.3.8",
+    "@salesforce/plugin-templates": "^56.2.9",
     "@salesforce/dev-scripts": "^9.0.0",
     "@types/yeoman-assert": "^3.1.4",
     "eslint-plugin-sf-plugin": "^1.18.3",
@@ -68,13 +69,8 @@
       "kc": {
         "description": "custom commands built by github.com/k-capehart",
         "subtopics": {
-          "apex-factory": {
-            "description": "commands for auto generating apex classes and triggers",
-            "subtopics": {
-              "trigger-framework": {
-                "description": "commands for auto generating trigger frameworks"
-              }
-            }
+          "trigger-framework": {
+            "description": "commands for auto generating trigger frameworks"
           }
         }
       }
