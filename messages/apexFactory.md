@@ -1,7 +1,7 @@
 # file.created
 
-%s created in %s.
+File created in %s.
 
 # file.exists
 
-%s not created as it already exists in %s.
+File not created as it already exists in %s.

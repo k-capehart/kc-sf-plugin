@@ -16,16 +16,15 @@ export const copyApexClass = (template: string, outputFileName: string, targetDi
   const classDefTemplate = path.resolve(dirname, templateDir.concat(TemplateFiles.ApexClassDefinition));
   const classDefContent = fs.readFileSync(classDefTemplate, 'utf-8').replaceAll('{{apiVersion}}', apiVersion);
 
-  if (!fs.existsSync(targetDir.concat(outputFileName))) {
-    if (!fs.existsSync(targetDir)) {
-      fs.mkdirSync(targetDir);
-    }
-    fs.copyFileSync(classTemplate, targetDir.concat(outputFileName));
-    fs.writeFileSync(targetDir.concat(outputFileName).concat('-meta.xml'), classDefContent);
-    ux.log(apexFactoryMessages.getMessage('file.created', [outputFileName, targetDir]));
+  verifyDirectory(targetDir);
+  targetDir = targetDir.concat(outputFileName);
+  if (!fs.existsSync(targetDir)) {
+    fs.copyFileSync(classTemplate, targetDir);
+    fs.writeFileSync(targetDir.concat('-meta.xml'), classDefContent);
+    ux.log(apexFactoryMessages.getMessage('file.created', [targetDir]));
     return outputFileName;
   } else {
-    ux.log(apexFactoryMessages.getMessage('file.exists', [outputFileName, targetDir]));
+    ux.log(apexFactoryMessages.getMessage('file.exists', [targetDir]));
   }
   return '';
 };
@@ -50,16 +49,65 @@ export const createApexFile = (
     apexTemplateContent = apexTemplateContent.replaceAll(key, val);
   }
 
-  if (!fs.existsSync(targetDir.concat(outputFileName))) {
-    if (!fs.existsSync(targetDir)) {
-      fs.mkdirSync(targetDir);
-    }
-    fs.writeFileSync(targetDir.concat(outputFileName), apexTemplateContent);
-    fs.writeFileSync(targetDir.concat(outputFileName).concat('-meta.xml'), apexDefContent);
-    ux.log(apexFactoryMessages.getMessage('file.created', [outputFileName, targetDir]));
+  verifyDirectory(targetDir);
+  targetDir = targetDir.concat(outputFileName);
+  if (!fs.existsSync(targetDir)) {
+    fs.writeFileSync(targetDir, apexTemplateContent);
+    fs.writeFileSync(targetDir.concat('-meta.xml'), apexDefContent);
+    ux.log(apexFactoryMessages.getMessage('file.created', [targetDir]));
     return outputFileName;
   } else {
-    ux.log(apexFactoryMessages.getMessage('file.exists', [outputFileName, targetDir]));
+    ux.log(apexFactoryMessages.getMessage('file.exists', [targetDir]));
   }
   return '';
+};
+
+export const createCustomObject = (template: string, objectName: string, targetDir: string): string => {
+  const objectTemplate = path.resolve(dirname, templateDir.concat(template));
+  const objectTemplateContent = fs.readFileSync(objectTemplate, 'utf-8');
+  const outputFileName = objectName.concat('.object-meta.xml');
+
+  targetDir = targetDir.concat('/' + objectName + '/');
+  verifyDirectory(targetDir);
+  targetDir = targetDir.concat(outputFileName);
+  if (!fs.existsSync(targetDir)) {
+    fs.writeFileSync(targetDir, objectTemplateContent);
+    ux.log(apexFactoryMessages.getMessage('file.created', [targetDir]));
+    return outputFileName;
+  } else {
+    ux.log(apexFactoryMessages.getMessage('file.exists', [targetDir]));
+  }
+  return '';
+};
+
+export const createField = (
+  template: string,
+  outputFileName: string,
+  object: string,
+  targetDir: string,
+  tokens: Map<string, string>
+): string => {
+  const fieldTemplate = path.resolve(dirname, templateDir.concat(template));
+  let fieldTemplateContent = fs.readFileSync(fieldTemplate, 'utf-8');
+  for (const [key, val] of tokens) {
+    fieldTemplateContent = fieldTemplateContent.replaceAll(key, val);
+  }
+
+  targetDir = targetDir.concat(object).concat('/fields/');
+  verifyDirectory(targetDir);
+  targetDir = targetDir.concat(outputFileName);
+  if (!fs.existsSync(targetDir)) {
+    fs.writeFileSync(targetDir, fieldTemplateContent);
+    ux.log(apexFactoryMessages.getMessage('file.created', [targetDir]));
+    return outputFileName;
+  } else {
+    ux.log(apexFactoryMessages.getMessage('file.exists', [targetDir]));
+  }
+  return '';
+};
+
+const verifyDirectory = (directory: string): void => {
+  if (!fs.existsSync(directory)) {
+    fs.mkdirSync(directory, { recursive: true });
+  }
 };

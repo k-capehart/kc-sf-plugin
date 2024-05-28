@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import { TestSession } from '@salesforce/cli-plugins-testkit';
 import assert from 'yeoman-assert';
 import { TemplateFiles } from '../../src/utils/types.js';
-import { copyApexClass, createApexFile } from '../../src/utils/apexFactory.js';
+import { copyApexClass, createApexFile, createCustomObject, createField } from '../../src/utils/apexFactory.js';
 
 describe('kc apex-factory trigger-framework trigger', () => {
   let session: TestSession;
@@ -71,5 +71,49 @@ describe('kc apex-factory trigger-framework trigger', () => {
       path.join(classesDir, 'AccountTriggerHandler.cls'),
       'public with sharing class AccountTriggerHandler extends TriggerHandler'
     );
+  });
+
+  it('creates custom field to a path and replaces tokens', async () => {
+    const objectsDir = session.project.dir.concat('/force-app/main/default/objects/');
+    const tokens = new Map<string, string>([['{{sobject}}', 'Account']]);
+    const result = createField(
+      TemplateFiles.BypassCustomField,
+      'Account.field-meta.xml',
+      'BypassAutomation__c',
+      objectsDir,
+      tokens
+    );
+    expect(result).to.equal('Account.field-meta.xml');
+    assert.file(path.join(objectsDir.concat('/BypassAutomation__c/fields/Account.field-meta.xml')));
+    assert.fileContent(
+      path.join(objectsDir.concat('/BypassAutomation__c/fields/', 'Account.field-meta.xml')),
+      'Account'
+    );
+  });
+
+  it('does not create a custom field because it already exists', async () => {
+    const objectsDir = session.project.dir.concat('/force-app/main/default/objects/');
+    const tokens = new Map<string, string>([['{{sobject}}', 'Account']]);
+    const result = createField(
+      TemplateFiles.BypassCustomField,
+      'Account.field-meta.xml',
+      'BypassAutomation__c',
+      objectsDir,
+      tokens
+    );
+    expect(result).to.equal('');
+  });
+
+  it('creates custom object to a path', async () => {
+    const objectsDir = session.project.dir.concat('/force-app/main/default/objects/');
+    const result = createCustomObject(TemplateFiles.BypassCustomObject, 'BypassAutomation__c', objectsDir);
+    expect(result).to.equal('BypassAutomation__c.object-meta.xml');
+    assert.file(path.join(objectsDir.concat('/BypassAutomation__c/BypassAutomation__c.object-meta.xml')));
+  });
+
+  it('does not create a custom object because it already exists', async () => {
+    const objectsDir = session.project.dir.concat('/force-app/main/default/objects/');
+    const result = createCustomObject(TemplateFiles.BypassCustomObject, 'BypassAutomation__c', objectsDir);
+    expect(result).to.equal('');
   });
 });

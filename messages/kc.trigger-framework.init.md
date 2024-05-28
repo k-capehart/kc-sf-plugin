@@ -6,6 +6,8 @@ Auto generate an Apex Trigger framework. By default, the template uses this Trig
 
 Using this command will initialize an Apex Trigger framework by creating an extendable Trigger Handler class based off a template.
 
+Also creates a CustomSetting called BypassAutomation that can be used to optionally skip triggers for specific users.
+
 SObject specific trigger handlers should extend this class and override the methods for beforeInsert(), afterInsert(), etc.
 
 If a file already exists with the given name then it is not overwritten.
@@ -18,4 +20,4 @@ Initialize the trigger framework in the directory: force-app/main/default
 
 # flags.target-dir.summary
 
-The target directory for your salesforce project. Files will be generated in a classes/ sub-directory.
+The target directory for your salesforce project. There should be subdirectories for classes/ and objects/.

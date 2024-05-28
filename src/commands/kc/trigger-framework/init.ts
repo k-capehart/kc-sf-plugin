@@ -1,7 +1,7 @@
 import { SfCommand, Flags } from '@salesforce/sf-plugins-core';
 import { Messages } from '@salesforce/core';
 import { TemplateFiles } from '../../../utils/types.js';
-import { copyApexClass } from '../../../utils/apexFactory.js';
+import { copyApexClass, createCustomObject } from '../../../utils/apexFactory.js';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
 const messages = Messages.loadMessages('kc-sf-plugin', 'kc.trigger-framework.init');
@@ -27,14 +27,17 @@ export default class KcApexfactoryTriggerframeworkInit extends SfCommand<KcApexf
   public async run(): Promise<KcApexfactoryTriggerframeworkInitResult> {
     const { flags } = await this.parse(KcApexfactoryTriggerframeworkInit);
     const classesDir = flags['target-dir'].concat('/classes/');
+    const objectDir = flags['target-dir'].concat('/objects/');
     const triggerHandlerFileName = 'TriggerHandler.cls';
     const triggerHandlerTestFileName = 'TriggerHandler_Test.cls';
+    const customSettingObjectName = 'BypassAutomation__c';
 
     const createdFiles: string[] = [];
     createdFiles.push(copyApexClass(TemplateFiles.TriggerHandlerVirtualClass, triggerHandlerFileName, classesDir));
     createdFiles.push(
       copyApexClass(TemplateFiles.TriggerHandlerVirtualClassTest, triggerHandlerTestFileName, classesDir)
     );
+    createdFiles.push(createCustomObject(TemplateFiles.BypassCustomObject, customSettingObjectName, objectDir));
 
     return { createdFiles };
   }

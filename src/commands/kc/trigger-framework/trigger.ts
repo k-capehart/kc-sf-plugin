@@ -1,6 +1,6 @@
 import { SfCommand, Flags } from '@salesforce/sf-plugins-core';
 import { Messages } from '@salesforce/core';
-import { createApexFile } from '../../../utils/apexFactory.js';
+import { createApexFile, createField } from '../../../utils/apexFactory.js';
 import { TemplateFiles } from '../../../utils/types.js';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
@@ -34,28 +34,29 @@ export default class KcApexFactoryTriggerFrameworkTrigger extends SfCommand<KcAp
     const { flags } = await this.parse(KcApexFactoryTriggerFrameworkTrigger);
     const classesDir = flags['target-dir'].concat('/classes/');
     const triggerDir = flags['target-dir'].concat('/triggers/');
+    const customFieldDir = flags['target-dir'].concat('/objects/');
     const sobjectNames = flags['sobject'];
+    const customSettingName = 'BypassAutomation__c';
 
     const createdFiles: string[] = [];
     sobjectNames.forEach((sobject) => {
+      const tokens = new Map<string, string>([['{{sobject}}', sobject]]);
+
       const triggerName = sobject.concat('Trigger.trigger');
-      const triggerTokens = new Map<string, string>([['{{sobject}}', sobject]]);
-      createdFiles.push(
-        createApexFile(TemplateFiles.SObjectTrigger, triggerName, triggerDir, 'trigger', triggerTokens)
-      );
+      createdFiles.push(createApexFile(TemplateFiles.SObjectTrigger, triggerName, triggerDir, 'trigger', tokens));
+
       const handlerName = sobject.concat('TriggerHandler.cls');
-      const handlerTokens = new Map<string, string>([
-        ['{{sobject}}', sobject],
-        ['{{handler}}', 'TriggerHandler'],
-      ]);
-      createdFiles.push(createApexFile(TemplateFiles.SObjectHandler, handlerName, classesDir, 'class', handlerTokens));
+      createdFiles.push(createApexFile(TemplateFiles.SObjectHandler, handlerName, classesDir, 'class', tokens));
+
       const helperName = sobject.concat('Helper.cls');
-      const helperTokens = new Map<string, string>([['{{sobject}}', sobject]]);
-      createdFiles.push(createApexFile(TemplateFiles.SObjectHelper, helperName, classesDir, 'class', helperTokens));
+      createdFiles.push(createApexFile(TemplateFiles.SObjectHelper, helperName, classesDir, 'class', tokens));
+
       const helperTestName = sobject.concat('Helper_Test.cls');
-      const helperTestTokens = new Map<string, string>([['{{sobject}}', sobject]]);
+      createdFiles.push(createApexFile(TemplateFiles.SObjectHelperTest, helperTestName, classesDir, 'class', tokens));
+
+      const bypassFieldName = sobject.concat('__c.field-meta.xml');
       createdFiles.push(
-        createApexFile(TemplateFiles.SObjectHelperTest, helperTestName, classesDir, 'class', helperTestTokens)
+        createField(TemplateFiles.BypassCustomField, bypassFieldName, customSettingName, customFieldDir, tokens)
       );
     });
 

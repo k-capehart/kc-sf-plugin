@@ -55,19 +55,19 @@ USAGE
   $ sf kc trigger-framework init [--json] [--flags-dir <value>] [-d <value>]
 
 FLAGS
-  -d, --target-dir=<value>  [default: force-app/main/default] The target directory for your salesforce project. Files will
-                            be generated in a classes/ sub-directory.
+  -d, --target-dir=<value>  [default: force-app/main/default] The target directory for your salesforce project.
+                            There should be subdirectories for classes/ and objects/.
 
 GLOBAL FLAGS
   --flags-dir=<value>  Import flag values from a directory.
   --json               Format output as json.
 
 DESCRIPTION
-  Using this command will initialize an Apex Trigger framework by creating an extendable Trigger Handler class based off a
-  template.
+  Using this command will initialize an Apex Trigger framework by creating an extendable Trigger Handler class based off a template.
 
-  SObject specific trigger handlers should extend this class and override the methods for beforeInsert(), afterInsert(),
-  etc.
+  Also creates a CustomSetting called BypassAutomation that can be used to optionally skip triggers for specific users.
+
+  SObject specific trigger handlers should extend this class and override the methods for beforeInsert(), afterInsert(), etc.
 
   If a file already exists with the given name then it is not overwritten.
 
@@ -86,7 +86,7 @@ USAGE
 
 FLAGS
   -d, --target-dir=<value>  [default: force-app/main/default] The target directory for your apex classes and triggers.
-                            There should be a classes/ and triggers/ directory at this location.
+                            There should be subdirectories for classes/, triggers/, and objects/.
   -s, --sobject=<value>...  (required) The name of the SObject that the trigger and classes will be created for.
 
 GLOBAL FLAGS
@@ -94,10 +94,11 @@ GLOBAL FLAGS
   --json               Format output as json.
 
 DESCRIPTION
-  Given an SObject, creates `SObject.trigger`, `SObjectTriggerHandler.cls`, `SObjectHelper.cls`, and
-  `SObjectHelper_Test.cls`.
+  Given an SObject, creates a Trigger, a Handler class, a Helper class, a Test class, and a custom field for the BypassAutomation custom setting.
 
-  `SObjectTriggerHandler` class extends `TriggerHandler` that is generated from the `kc trigger-framework init` command.
+  The Handler class extends `TriggerHandler`.
+
+  The custom field is used in the Handler class to check whether implementation should be skipped.
 
 EXAMPLES
   Create a new trigger, handler, and helper for the Account object.

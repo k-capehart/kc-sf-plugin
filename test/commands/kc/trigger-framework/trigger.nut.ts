@@ -33,5 +33,12 @@ describe('kc apex-factory trigger-framework trigger', () => {
         'AccountHelper_Test.cls-meta.xml',
       ].map((f) => path.join(session.project.dir.concat('/force-app/main/default/classes'), f))
     );
+    assert.file(
+      path.join(
+        session.project.dir.concat(
+          '/force-app/main/default/objects/BypassAutomation__c/fields/Account__c.field-meta.xml'
+        )
+      )
+    );
   });
 });

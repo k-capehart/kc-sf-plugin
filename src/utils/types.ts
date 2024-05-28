@@ -22,6 +22,8 @@ export enum TemplateFiles {
   SObjectHelperTest = 'SObjectTriggerHelper_Test.txt',
   TriggerHandlerVirtualClass = 'TriggerHandlerVirtualClass.txt',
   TriggerHandlerVirtualClassTest = 'TriggerHandlerVirtualClass_Test.txt',
+  BypassCustomObject = 'BypassCustomObject.txt',
+  BypassCustomField = 'BypassCustomField.txt',
 }
 
 export type PathInfo = {

@@ -4,9 +4,11 @@ Create a new trigger, handler class, and helper class for a Salesforce object. R
 
 # description
 
-Given an SObject, creates `SObject.trigger`, `SObjectTriggerHandler.cls`, `SObjectHelper.cls`, and `SObjectHelper_Test.cls`.
+Given an SObject, creates a Trigger, a Handler class, a Helper class, a Test class, and a custom field for the BypassAutomation custom setting.
 
-`SObjectTriggerHandler` class extends `TriggerHandler` that is generated from the `kc trigger-framework init` command.
+The Handler class extends `TriggerHandler`.
+
+The custom field is used in the Handler class to check whether implementation should be skipped.
 
 # examples
 
@@ -16,7 +18,7 @@ Create a new trigger, handler, and helper for the Account object.
 
 # flags.target-dir.summary
 
-The target directory for your apex classes and triggers. There should be a classes/ and triggers/ directory at this location.
+The target directory for your apex classes and triggers. There should be subdirectories for classes/, triggers/, and objects/.
 
 # flags.sobject.summary
 

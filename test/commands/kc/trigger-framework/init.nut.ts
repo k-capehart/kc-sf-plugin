@@ -25,5 +25,10 @@ describe('kc apex-factory trigger-framework init', () => {
         'TriggerHandler_Test.cls-meta.xml',
       ].map((f) => path.join(session.project.dir.concat('/force-app/main/default/classes'), f))
     );
+    assert.file(
+      ['BypassAutomation__c.object-meta.xml'].map((f) =>
+        path.join(session.project.dir.concat('/force-app/main/default/objects/BypassAutomation__c'), f)
+      )
+    );
   });
 });
