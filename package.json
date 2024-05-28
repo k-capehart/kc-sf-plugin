@@ -18,6 +18,7 @@
   "dependencies": {
     "@oclif/core": "^3.26.2",
     "@salesforce/core": "^7.3.8",
+    "@salesforce/plugin-templates": "^56.2.9",
     "@salesforce/sf-plugins-core": "^9.0.10",
     "@salesforce/source-deploy-retrieve": "^11.4.4",
     "@salesforce/source-tracking": "^6.2.1",
@@ -29,7 +30,6 @@
   "devDependencies": {
     "@oclif/plugin-command-snapshot": "^5.1.4",
     "@salesforce/cli-plugins-testkit": "^5.3.8",
-    "@salesforce/plugin-templates": "^56.2.9",
     "@salesforce/dev-scripts": "^9.0.0",
     "@types/yeoman-assert": "^3.1.4",
     "eslint-plugin-sf-plugin": "^1.18.3",
