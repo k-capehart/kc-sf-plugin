@@ -17,7 +17,7 @@ describe('kc apex-factory trigger-framework trigger', () => {
   });
 
   it('runs kc apex-factory trigger-framework trigger', async () => {
-    execCmd('kc:apex-factory:trigger-framework:trigger --sobject Account');
+    execCmd('kc:trigger-framework:trigger --sobject Account');
     assert.file(
       ['AccountTrigger.trigger', 'AccountTrigger.trigger-meta.xml'].map((f) =>
         path.join(session.project.dir.concat('/force-app/main/default/triggers'), f)

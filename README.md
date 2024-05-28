@@ -42,7 +42,67 @@ sf plugins
 
 <!-- commands -->
 
+- [`sf kc trigger-framework init`](#sf-kc-trigger-framework-init)
+- [`sf kc trigger-framework trigger`](#sf-kc-trigger-framework-trigger)
 - [`sf kc diff`](#sf-kc-diff)
+
+## `sf kc trigger-framework init`
+
+Auto generate an Apex Trigger framework. By default, the template uses this Trigger Handler Apex class: https://github.com/k-capehart/sfdc-trigger-framework
+
+```
+USAGE
+  $ sf kc trigger-framework init [--json] [--flags-dir <value>] [-d <value>]
+
+FLAGS
+  -d, --target-dir=<value>  [default: force-app/main/default] The target directory for your salesforce project. Files will
+                            be generated in a classes/ sub-directory.
+
+GLOBAL FLAGS
+  --flags-dir=<value>  Import flag values from a directory.
+  --json               Format output as json.
+
+DESCRIPTION
+  Using this command will initialize an Apex Trigger framework by creating an extendable Trigger Handler class based off a
+  template.
+
+  SObject specific trigger handlers should extend this class and override the methods for beforeInsert(), afterInsert(),
+  etc.
+
+  If a file already exists with the given name then it is not overwritten.
+
+EXAMPLES
+  Initialize the trigger framework in the directory: force-app/main/default
+  $ sf kc trigger-framework init --target-dir force-app/main/default
+```
+
+## `sf kc trigger-framework trigger`
+
+Create a new trigger, handler class, and helper class for a Salesforce object. Recommend using `kc trigger-framework init` first.
+
+```
+USAGE
+  $ sf kc trigger-framework trigger -s <value> [--json] [--flags-dir <value>] [-d <value>]
+
+FLAGS
+  -d, --target-dir=<value>  [default: force-app/main/default] The target directory for your apex classes and triggers.
+                            There should be a classes/ and triggers/ directory at this location.
+  -s, --sobject=<value>...  (required) The name of the SObject that the trigger and classes will be created for.
+
+GLOBAL FLAGS
+  --flags-dir=<value>  Import flag values from a directory.
+  --json               Format output as json.
+
+DESCRIPTION
+  Given an SObject, creates `SObject.trigger`, `SObjectTriggerHandler.cls`, `SObjectHelper.cls`, and
+  `SObjectHelper_Test.cls`.
+
+  `SObjectTriggerHandler` class extends `TriggerHandler` that is generated from the `kc trigger-framework init` command.
+
+EXAMPLES
+  Create a new trigger, handler, and helper for the Account object.
+  $ sf kc trigger-framework trigger --sobject Account
+```
 
 ## `sf kc diff`
 
@@ -53,7 +113,7 @@ USAGE
   $ sf kc diff -o <value> [--json] [--flags-dir <value>] [--concise]
 
 FLAGS
-  -o, --target-org=<value>  (required) [default: kyleacapehart@gmail.com.dev] Login username or alias for the target
+  -o, --target-org=<value>  (required) Login username or alias for the target
                             org.
       --concise             Omits files that are forceignored.
 

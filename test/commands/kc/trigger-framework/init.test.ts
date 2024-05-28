@@ -16,7 +16,7 @@ describe('kc apex-factory trigger-framework init', () => {
   });
 
   it('runs kc apex-factory trigger-framework init', async () => {
-    execCmd('kc:apex-factory:trigger-framework:init');
+    execCmd('kc:trigger-framework:init');
     assert.file(
       [
         'TriggerHandler.cls',

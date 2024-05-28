@@ -1,10 +1,10 @@
 import { SfCommand, Flags } from '@salesforce/sf-plugins-core';
 import { Messages } from '@salesforce/core';
-import { TemplateFiles } from '../../../../utils/types.js';
-import { copyApexClass } from '../../../../utils/apexFactory.js';
+import { TemplateFiles } from '../../../utils/types.js';
+import { copyApexClass } from '../../../utils/apexFactory.js';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
-const messages = Messages.loadMessages('kc-sf-plugin', 'kc.apex-factory.trigger-framework.init');
+const messages = Messages.loadMessages('kc-sf-plugin', 'kc.trigger-framework.init');
 
 export type KcApexfactoryTriggerframeworkInitResult = {
   createdFiles: string[];

@@ -18,4 +18,4 @@ Initialize the trigger framework in the directory: force-app/main/default
 
 # flags.target-dir.summary
 
-The target directory for your salesforce project. Files will be generated in a classes/ sub-directory. (default=force-app/main/default).
+The target directory for your salesforce project. Files will be generated in a classes/ sub-directory.
