@@ -1,42 +1,37 @@
-import { TestContext } from '@salesforce/core/testSetup';
-import { expect } from 'chai';
-import { stubSfCommandUx } from '@salesforce/sf-plugins-core';
-import KcApexFactoryTriggerFrameworkTrigger from '../../../../../src/commands/kc/apex-factory/trigger-framework/trigger.js';
+import path from 'node:path';
+import { TestSession, execCmd } from '@salesforce/cli-plugins-testkit';
+import assert from 'yeoman-assert';
 
 describe('kc apex-factory trigger-framework trigger', () => {
-  const $$ = new TestContext();
-  let sfCommandStubs: ReturnType<typeof stubSfCommandUx>;
+  let session: TestSession;
 
-  beforeEach(() => {
-    sfCommandStubs = stubSfCommandUx($$.SANDBOX);
+  before(async () => {
+    session = await TestSession.create({
+      project: {},
+      devhubAuthStrategy: 'NONE',
+    });
   });
 
-  afterEach(() => {
-    $$.restore();
+  after(async () => {
+    await session?.clean();
   });
 
-  it('runs hello', async () => {
-    await KcApexFactoryTriggerFrameworkTrigger.run([]);
-    const output = sfCommandStubs.log
-      .getCalls()
-      .flatMap((c) => c.args)
-      .join('\n');
-    expect(output).to.include('hello world');
-  });
-
-  it('runs hello with --json and no provided name', async () => {
-    const result = await KcApexFactoryTriggerFrameworkTrigger.run([]);
-    expect(result.path).to.equal(
-      '/Users/kcapehart/Documents/VS_Code_Projects/personal/kc-sf-plugin/src/commands/kc/apex-factory/trigger-framework/trigger.ts'
+  it('runs kc apex-factory trigger-framework trigger', async () => {
+    execCmd('kc:apex-factory:trigger-framework:trigger --sobject Account');
+    assert.file(
+      ['AccountTrigger.trigger', 'AccountTrigger.trigger-meta.xml'].map((f) =>
+        path.join(session.project.dir.concat('/force-app/main/default/triggers'), f)
+      )
     );
-  });
-
-  it('runs hello world --name Astro', async () => {
-    await KcApexFactoryTriggerFrameworkTrigger.run(['--name', 'Astro']);
-    const output = sfCommandStubs.log
-      .getCalls()
-      .flatMap((c) => c.args)
-      .join('\n');
-    expect(output).to.include('hello Astro');
+    assert.file(
+      [
+        'AccountTriggerHandler.cls',
+        'AccountTriggerHandler.cls-meta.xml',
+        'AccountHelper.cls',
+        'AccountHelper.cls-meta.xml',
+        'AccountHelper_Test.cls',
+        'AccountHelper_Test.cls-meta.xml',
+      ].map((f) => path.join(session.project.dir.concat('/force-app/main/default/classes'), f))
+    );
   });
 });

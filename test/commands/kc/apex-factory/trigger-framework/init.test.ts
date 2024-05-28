@@ -1,42 +1,29 @@
-import { TestContext } from '@salesforce/core/testSetup';
-import { expect } from 'chai';
-import { stubSfCommandUx } from '@salesforce/sf-plugins-core';
-import KcApexFactoryTriggerFrameworkInit from '../../../../../src/commands/kc/apex-factory/trigger-framework/init.js';
-
+import path from 'node:path';
+import { TestSession, execCmd } from '@salesforce/cli-plugins-testkit';
+import assert from 'yeoman-assert';
 describe('kc apex-factory trigger-framework init', () => {
-  const $$ = new TestContext();
-  let sfCommandStubs: ReturnType<typeof stubSfCommandUx>;
+  let session: TestSession;
 
-  beforeEach(() => {
-    sfCommandStubs = stubSfCommandUx($$.SANDBOX);
+  before(async () => {
+    session = await TestSession.create({
+      project: {},
+      devhubAuthStrategy: 'NONE',
+    });
   });
 
-  afterEach(() => {
-    $$.restore();
+  after(async () => {
+    await session?.clean();
   });
 
-  it('runs hello', async () => {
-    await KcApexFactoryTriggerFrameworkInit.run([]);
-    const output = sfCommandStubs.log
-      .getCalls()
-      .flatMap((c) => c.args)
-      .join('\n');
-    expect(output).to.include('hello world');
-  });
-
-  it('runs hello with --json and no provided name', async () => {
-    const result = await KcApexFactoryTriggerFrameworkInit.run([]);
-    expect(result.path).to.equal(
-      '/Users/kcapehart/Documents/VS_Code_Projects/personal/kc-sf-plugin/src/commands/kc/apex-factory/trigger-framework/init.ts'
+  it('runs kc apex-factory trigger-framework init', async () => {
+    execCmd('kc:apex-factory:trigger-framework:init');
+    assert.file(
+      [
+        'TriggerHandler.cls',
+        'TriggerHandler.cls-meta.xml',
+        'TriggerHandler_Test.cls',
+        'TriggerHandler_Test.cls-meta.xml',
+      ].map((f) => path.join(session.project.dir.concat('/force-app/main/default/classes'), f))
     );
-  });
-
-  it('runs hello world --name Astro', async () => {
-    await KcApexFactoryTriggerFrameworkInit.run(['--name', 'Astro']);
-    const output = sfCommandStubs.log
-      .getCalls()
-      .flatMap((c) => c.args)
-      .join('\n');
-    expect(output).to.include('hello Astro');
   });
 });

@@ -1363,13 +1363,13 @@
   resolved "https://registry.yarnpkg.com/@pkgjs/parseargs/-/parseargs-0.11.0.tgz#a77ea742fab25775145434eb1d2328cf5013ac33"
   integrity sha512-+1VkjdD0QBLPodGrJUeqarH8VAIvQODIbwh9XpP5Syisf7YoQgsJKPNFoqqLQlu+VQ/tVSshMR6loPMn8U+dPg==
 
-"@salesforce/cli-plugins-testkit@^5.2.0":
-  version "5.3.4"
-  resolved "https://registry.yarnpkg.com/@salesforce/cli-plugins-testkit/-/cli-plugins-testkit-5.3.4.tgz#7ada47df669a8f643638e25059af9e34ffc4119a"
-  integrity sha512-VgEIKuf3nr1HKwQ3t+cIoLqe7Xo4TGfzDoqXNdwPyMLneCrrktYZFnZs6sAi4gTQYuXIE4X23tzaEfjqRgwpvA==
+"@salesforce/cli-plugins-testkit@^5.3.8":
+  version "5.3.8"
+  resolved "https://registry.yarnpkg.com/@salesforce/cli-plugins-testkit/-/cli-plugins-testkit-5.3.8.tgz#35c0d34b17e04a1162cdfa6c6450bda3f9062502"
+  integrity sha512-A+//ZlAwRPQQylIAPwo2Lob5PfSObyFbiYqYsG/ktBQlF41MASZHkCb/3/qJv1/2gPusVOUbEsmF1LRIj8reNg==
   dependencies:
-    "@salesforce/core" "^7.3.5"
-    "@salesforce/kit" "^3.1.1"
+    "@salesforce/core" "^7.3.9"
+    "@salesforce/kit" "^3.1.2"
     "@salesforce/ts-types" "^2.0.9"
     "@types/shelljs" "^0.8.15"
     debug "^4.3.1"
@@ -1377,7 +1377,7 @@
     shelljs "^0.8.4"
     sinon "^17.0.2"
     strip-ansi "6.0.1"
-    ts-retry-promise "^0.8.0"
+    ts-retry-promise "^0.8.1"
 
 "@salesforce/core@^7.3.1", "@salesforce/core@^7.3.5", "@salesforce/core@^7.3.6", "@salesforce/core@^7.3.8":
   version "7.3.8"
@@ -1387,6 +1387,29 @@
     "@jsforce/jsforce-node" "^3.2.0"
     "@salesforce/kit" "^3.1.1"
     "@salesforce/schemas" "^1.7.0"
+    "@salesforce/ts-types" "^2.0.9"
+    ajv "^8.13.0"
+    change-case "^4.1.2"
+    faye "^1.4.0"
+    form-data "^4.0.0"
+    js2xmlparser "^4.0.1"
+    jsonwebtoken "9.0.2"
+    jszip "3.10.1"
+    pino "^8.21.0"
+    pino-abstract-transport "^1.1.0"
+    pino-pretty "^10.3.1"
+    proper-lockfile "^4.1.2"
+    semver "^7.6.2"
+    ts-retry-promise "^0.7.1"
+
+"@salesforce/core@^7.3.9":
+  version "7.3.9"
+  resolved "https://registry.yarnpkg.com/@salesforce/core/-/core-7.3.9.tgz#8abe2b3e2393989d11e92b7a6b96043fc9d5b9c8"
+  integrity sha512-eJqDiA5b7wU50Ee/xjmGzSnHrNVJ8S77B7enfX30gm7gxU3i3M3QeBdiV6XAOPLSIL96DseofP6Tv6c+rljlKA==
+  dependencies:
+    "@jsforce/jsforce-node" "^3.2.0"
+    "@salesforce/kit" "^3.1.1"
+    "@salesforce/schemas" "^1.9.0"
     "@salesforce/ts-types" "^2.0.9"
     ajv "^8.13.0"
     change-case "^4.1.2"
@@ -1447,6 +1470,14 @@
     "@salesforce/ts-types" "^2.0.9"
     tslib "^2.6.2"
 
+"@salesforce/kit@^3.1.2":
+  version "3.1.2"
+  resolved "https://registry.yarnpkg.com/@salesforce/kit/-/kit-3.1.2.tgz#270741c54c70969df19ef17f8979b4ef1fa664b2"
+  integrity sha512-si+ddvZDgx9q5czxAANuK5xhz3pv+KGspQy1wyia/7HDPKadA0QZkLTzUnO1Ju4Mux32CNHEb2y9lw9jj+eVTA==
+  dependencies:
+    "@salesforce/ts-types" "^2.0.9"
+    tslib "^2.6.2"
+
 "@salesforce/prettier-config@^0.0.3":
   version "0.0.3"
   resolved "https://registry.yarnpkg.com/@salesforce/prettier-config/-/prettier-config-0.0.3.tgz#ba648d4886bb38adabe073dbea0b3a91b3753bb0"
@@ -1456,6 +1487,11 @@
   version "1.8.1"
   resolved "https://registry.yarnpkg.com/@salesforce/schemas/-/schemas-1.8.1.tgz#4f4181742386db3387b5683ada769c767425a6a1"
   integrity sha512-7Z6mCvpNNGpfIsMj6vVILfADaCSCI4BiJ7VHkYuy8jryKYdvRXxYu3FOaFFdaonMx0/bH0KZyoj6d92PEKpmGw==
+
+"@salesforce/schemas@^1.9.0":
+  version "1.9.0"
+  resolved "https://registry.yarnpkg.com/@salesforce/schemas/-/schemas-1.9.0.tgz#ba477a112653a20b4edcf989c61c57bdff9aa3ca"
+  integrity sha512-LiN37zG5ODT6z70sL1fxF7BQwtCX9JOWofSU8iliSNIM+WDEeinnoFtVqPInRSNt8I0RiJxIKCrqstsmQRBNvA==
 
 "@salesforce/sf-plugins-core@^9.0.10":
   version "9.0.10"
@@ -2265,6 +2301,13 @@
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/@types/wrap-ansi/-/wrap-ansi-3.0.0.tgz#18b97a972f94f60a679fd5c796d96421b9abb9fd"
   integrity sha512-ltIpx+kM7g/MLRZfkbL7EsCEjfzCcScLpkg37eXEtx5kmrAKBkTJwd1GIAjDSL8wTpM6Hzn5YO4pSb91BEwu1g==
+
+"@types/yeoman-assert@^3.1.4":
+  version "3.1.4"
+  resolved "https://registry.yarnpkg.com/@types/yeoman-assert/-/yeoman-assert-3.1.4.tgz#f47642ff46602ea5ba9b1668956fddd066943f43"
+  integrity sha512-hKiUQ1VVfJW1CFE/trneWj2oTcZ/VPGbiSB6RV/lGOGb6zpue+9jelw5fh0jMA5usEsKllK8LrzlKoPe2tghpw==
+  dependencies:
+    "@types/node" "*"
 
 "@typescript-eslint/eslint-plugin@^6.21.0":
   version "6.21.0"
@@ -4618,6 +4661,11 @@ husky@^7.0.4:
   version "7.0.4"
   resolved "https://registry.yarnpkg.com/husky/-/husky-7.0.4.tgz#242048245dc49c8fb1bf0cc7cfb98dd722531535"
   integrity sha512-vbaCKN2QLtP/vD4yvs6iz6hBEo6wkSzs8HpRah1Z6aGmF2KW5PdYuAd7uX5a+OyBZHBhd+TFLqgjUgytQr4RvQ==
+
+husky@^9.0.11:
+  version "9.0.11"
+  resolved "https://registry.yarnpkg.com/husky/-/husky-9.0.11.tgz#fc91df4c756050de41b3e478b2158b87c1e79af9"
+  integrity sha512-AB6lFlbwwyIqMdHYhwPe+kjOC3Oc5P3nThEoW/AaO2BX3vJDjWPFxYLxokUZOo6RNX20He3AaT8sESs9NJcmEw==
 
 hyperlinker@^1.0.0:
   version "1.0.0"
@@ -7291,6 +7339,11 @@ ts-retry-promise@^0.8.0:
   resolved "https://registry.yarnpkg.com/ts-retry-promise/-/ts-retry-promise-0.8.0.tgz#0a0c57b510827d5630da4b0c47f36b55b83a49e3"
   integrity sha512-elI/GkojPANBikPaMWQnk4T/bOJ6tq/hqXyQRmhfC9PAD6MoHmXIXK7KilJrlpx47VAKCGcmBrTeK5dHk6YAYg==
 
+ts-retry-promise@^0.8.1:
+  version "0.8.1"
+  resolved "https://registry.yarnpkg.com/ts-retry-promise/-/ts-retry-promise-0.8.1.tgz#ba90eb07cb03677fcbf78fe38e94c9183927e154"
+  integrity sha512-+AHPUmAhr5bSRRK5CurE9kNH8gZlEHnCgusZ0zy2bjfatUBDX0h6vGQjiT0YrGwSDwRZmU+bapeX6mj55FOPvg==
+
 tsconfig-paths@^3.15.0:
   version "3.15.0"
   resolved "https://registry.yarnpkg.com/tsconfig-paths/-/tsconfig-paths-3.15.0.tgz#5299ec605e55b1abb23ec939ef15edaf483070d4"
@@ -7799,6 +7852,11 @@ yargs@^17.0.0:
     string-width "^4.2.3"
     y18n "^5.0.5"
     yargs-parser "^21.1.1"
+
+yeoman-assert@^3.1.1:
+  version "3.1.1"
+  resolved "https://registry.yarnpkg.com/yeoman-assert/-/yeoman-assert-3.1.1.tgz#9f6fa0ecba7dd007c40f579668cb5dda18c79343"
+  integrity sha512-bCuLb/j/WzpvrJZCTdJJLFzm7KK8IYQJ3+dF9dYtNs2CUYyezFJDuULiZ2neM4eqjf45GN1KH/MzCTT3i90wUQ==
 
 yn@3.1.1:
   version "3.1.1"
