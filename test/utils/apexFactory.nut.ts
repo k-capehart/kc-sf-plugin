@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import { TestSession } from '@salesforce/cli-plugins-testkit';
 import assert from 'yeoman-assert';
 import { TemplateFiles } from '../../src/utils/types.js';
-import { copyApexClass, createApexFile } from './../../src/utils/apexFactory.js';
+import { copyApexClass, createApexFile } from '../../src/utils/apexFactory.js';
 
 describe('kc apex-factory trigger-framework trigger', () => {
   let session: TestSession;

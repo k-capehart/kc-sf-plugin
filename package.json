@@ -18,7 +18,6 @@
   "dependencies": {
     "@oclif/core": "^3.26.2",
     "@salesforce/core": "^7.3.8",
-    "@salesforce/plugin-templates": "^56.2.9",
     "@salesforce/sf-plugins-core": "^9.0.10",
     "@salesforce/source-deploy-retrieve": "^11.4.4",
     "@salesforce/source-tracking": "^6.2.1",
