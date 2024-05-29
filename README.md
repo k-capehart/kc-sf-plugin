@@ -166,7 +166,7 @@ _See code: [src/commands/kc/trigger-framework/trigger.ts](https://github.com/k-c
 
 <!-- commandsstop -->
 
-### Build
+## Build
 
 To build the plugin locally, make sure to have yarn installed and run the following commands:
 
