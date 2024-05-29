@@ -1,12 +1,16 @@
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { expect } from 'chai';
 import { TestSession } from '@salesforce/cli-plugins-testkit';
 import assert from 'yeoman-assert';
 import { TemplateFiles } from '../../src/utils/types.js';
-import { copyApexClass, createApexFile, createCustomObject, createField } from '../../src/utils/apexFactory.js';
+import { copyApexClass, createApexFile, createCustomObject, createField } from '../../src/utils/triggerFactory.js';
 
 describe('kc apex-factory trigger-framework trigger', () => {
   let session: TestSession;
+  const filename = fileURLToPath(import.meta.url);
+  const dirname = path.dirname(filename);
+  const template1Dir = path.resolve(dirname, '../../src/templates/template-1/');
 
   before(async () => {
     session = await TestSession.create({
@@ -20,13 +24,22 @@ describe('kc apex-factory trigger-framework trigger', () => {
   });
 
   it('copies apex file to a path', async () => {
-    const result = copyApexClass(TemplateFiles.TriggerHandlerVirtualClass, 'TriggerHandler.cls', session.project.dir);
+    const result = copyApexClass(
+      TemplateFiles.TriggerHandlerVirtualClass,
+      'TriggerHandler.cls',
+      session.project.dir,
+      template1Dir
+    );
     expect(result).to.equal('TriggerHandler.cls');
   });
 
   it('does not copy apex file to a path because it already exists', async () => {
-    copyApexClass(TemplateFiles.TriggerHandlerVirtualClass, 'TriggerHandler.cls', session.project.dir);
-    const result = copyApexClass(TemplateFiles.TriggerHandlerVirtualClass, 'TriggerHandler.cls', session.project.dir);
+    const result = copyApexClass(
+      TemplateFiles.TriggerHandlerVirtualClass,
+      'TriggerHandler.cls',
+      session.project.dir,
+      template1Dir
+    );
     expect(result).to.equal('');
   });
 
@@ -38,7 +51,8 @@ describe('kc apex-factory trigger-framework trigger', () => {
       'AccountTrigger.trigger',
       triggerDir,
       'trigger',
-      tokens
+      tokens,
+      template1Dir
     );
     expect(result).to.equal('AccountTrigger.trigger');
     assert.fileContent(path.join(triggerDir, 'AccountTrigger.trigger'), 'trigger AccountTrigger on Account');
@@ -51,7 +65,8 @@ describe('kc apex-factory trigger-framework trigger', () => {
       'AccountTrigger.trigger',
       triggerDir,
       'trigger',
-      new Map<string, string>()
+      new Map<string, string>(),
+      template1Dir
     );
     expect(result).to.equal('');
   });
@@ -64,7 +79,8 @@ describe('kc apex-factory trigger-framework trigger', () => {
       'AccountTriggerHandler.cls',
       classesDir,
       'class',
-      tokens
+      tokens,
+      template1Dir
     );
     expect(result).to.equal('AccountTriggerHandler.cls');
     assert.fileContent(
@@ -81,7 +97,8 @@ describe('kc apex-factory trigger-framework trigger', () => {
       'Account.field-meta.xml',
       'BypassAutomation__c',
       objectsDir,
-      tokens
+      tokens,
+      template1Dir
     );
     expect(result).to.equal('Account.field-meta.xml');
     assert.file(path.join(objectsDir.concat('/BypassAutomation__c/fields/Account.field-meta.xml')));
@@ -99,21 +116,32 @@ describe('kc apex-factory trigger-framework trigger', () => {
       'Account.field-meta.xml',
       'BypassAutomation__c',
       objectsDir,
-      tokens
+      tokens,
+      template1Dir
     );
     expect(result).to.equal('');
   });
 
   it('creates custom object to a path', async () => {
     const objectsDir = session.project.dir.concat('/force-app/main/default/objects/');
-    const result = createCustomObject(TemplateFiles.BypassCustomObject, 'BypassAutomation__c', objectsDir);
+    const result = createCustomObject(
+      TemplateFiles.BypassCustomObject,
+      'BypassAutomation__c',
+      objectsDir,
+      template1Dir
+    );
     expect(result).to.equal('BypassAutomation__c.object-meta.xml');
     assert.file(path.join(objectsDir.concat('/BypassAutomation__c/BypassAutomation__c.object-meta.xml')));
   });
 
   it('does not create a custom object because it already exists', async () => {
     const objectsDir = session.project.dir.concat('/force-app/main/default/objects/');
-    const result = createCustomObject(TemplateFiles.BypassCustomObject, 'BypassAutomation__c', objectsDir);
+    const result = createCustomObject(
+      TemplateFiles.BypassCustomObject,
+      'BypassAutomation__c',
+      objectsDir,
+      template1Dir
+    );
     expect(result).to.equal('');
   });
 });

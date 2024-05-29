@@ -16,8 +16,25 @@ describe('kc apex-factory trigger-framework trigger', () => {
     await session?.clean();
   });
 
-  it('runs kc apex-factory trigger-framework trigger', async () => {
-    execCmd('kc:trigger-framework:trigger --sobject Account');
+  it('runs kc apex-factory trigger-framework with init', async () => {
+    execCmd('kc:trigger-framework --template 1 --init');
+    assert.file(
+      [
+        'TriggerHandler.cls',
+        'TriggerHandler.cls-meta.xml',
+        'TriggerHandler_Test.cls',
+        'TriggerHandler_Test.cls-meta.xml',
+      ].map((f) => path.join(session.project.dir.concat('/force-app/main/default/classes'), f))
+    );
+    assert.file(
+      ['BypassAutomation__c.object-meta.xml'].map((f) =>
+        path.join(session.project.dir.concat('/force-app/main/default/objects/BypassAutomation__c'), f)
+      )
+    );
+  });
+
+  it('runs kc apex-factory trigger-framework with sobject', async () => {
+    execCmd('kc:trigger-framework --template 1 --sobject Account');
     assert.file(
       ['AccountTrigger.trigger', 'AccountTrigger.trigger-meta.xml'].map((f) =>
         path.join(session.project.dir.concat('/force-app/main/default/triggers'), f)

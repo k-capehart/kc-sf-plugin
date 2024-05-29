@@ -10,40 +10,42 @@ This plugin is bundled with the [Salesforce CLI](https://developer.salesforce.co
 sf plugins install kc-sf-plugin@x.y.z
 ```
 
-### Build
+## Trigger-Framework
 
-To build the plugin locally, make sure to have yarn installed and run the following commands:
+The trigger-framework command covers auto generating triggers, handlers, and other components used in relation to Apex Triggers.
 
-```bash
-# Clone the repository
-git clone git@github.com:salesforcecli/kc-sf-plugin
+First, use the `--init` flag to initialize the framework for a given template. This generates files that should only be created once, like interfaces or custom setting objects.
 
-# Install the dependencies and compile
-yarn && yarn build
-```
+After initializing, use the `--sobject` flag to generate Apex Triggers (and its handler classes) for a given object.
 
-To use your plugin, run using the local `./bin/dev` or `./bin/dev.cmd` file.
+The `--template` flag is used to choose which template to generate the apex code from. The available templates are:
 
-```bash
-# Run using local run file.
-./bin/dev kc diff
-```
+- 1 (default): https://github.com/k-capehart/kc-sf-plugin/tree/main/src/templates/template-1
+  - An extendable Apex Trigger Handler virtual class: https://github.com/k-capehart/sfdc-trigger-framework
+  - A Custom Setting called BypassAutomation\_\_c
+  - A checkbox field on BypassAutomation for the given Salesforce object
+  - An Apex trigger
+  - An Apex handler class that extends the virtual class, and uses the BypassAutomation\_\_c object to determine if logic should be skipped
+  - An Apex helper class
+  - An Apex test class for the helper class
 
-There should be no differences when running via the Salesforce CLI or using the local run file. However, it can be useful to link the plugin to do some additional testing or run your commands from anywhere on your machine.
+If you want to override a given template, then use the `--template-override` flag. The value given to the flag should be the path to a directory containing identically named files for a given template.
+For example, to override template 1:
 
-```bash
-# Link your plugin to the sf cli
-sf plugins link .
-# To verify
-sf plugins
-```
+1. Copy and paste the contents of this folder into a local directory, such as `templates/`: https://github.com/k-capehart/kc-sf-plugin/tree/main/src/templates/template-1
+2. Modify the content of the text files according to your specific needs
+   - Note that `{{sobject}}` is a token that will be replaced with the given Salesforce Object name given in the `--sobject` flag
+3. Run the commands:
+   <br/>`$ sf kc trigger-framework --template 1 --template-override templates/ --init`
+   <br/>`$ sf kc trigger-framework --template 1 --template-override templates/ --sobject Account`
 
 ## Commands
 
 <!-- commands -->
-* [`sf kc diff`](#sf-kc-diff)
-* [`sf kc trigger-framework init`](#sf-kc-trigger-framework-init)
-* [`sf kc trigger-framework trigger`](#sf-kc-trigger-framework-trigger)
+
+- [`sf kc diff`](#sf-kc-diff)
+- [`sf kc trigger-framework init`](#sf-kc-trigger-framework-init)
+- [`sf kc trigger-framework trigger`](#sf-kc-trigger-framework-trigger)
 
 ## `sf kc diff`
 
@@ -161,4 +163,33 @@ EXAMPLES
 ```
 
 _See code: [src/commands/kc/trigger-framework/trigger.ts](https://github.com/k-capehart/kc-sf-plugin/blob/1.3.1/src/commands/kc/trigger-framework/trigger.ts)_
+
 <!-- commandsstop -->
+
+### Build
+
+To build the plugin locally, make sure to have yarn installed and run the following commands:
+
+```bash
+# Clone the repository
+git clone git@github.com:salesforcecli/kc-sf-plugin
+
+# Install the dependencies and compile
+yarn && yarn build
+```
+
+To use your plugin, run using the local `./bin/dev` or `./bin/dev.cmd` file.
+
+```bash
+# Run using local run file.
+./bin/dev kc diff
+```
+
+There should be no differences when running via the Salesforce CLI or using the local run file. However, it can be useful to link the plugin to do some additional testing or run your commands from anywhere on your machine.
+
+```bash
+# Link your plugin to the sf cli
+sf plugins link .
+# To verify
+sf plugins
+```
