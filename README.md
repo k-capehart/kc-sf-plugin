@@ -24,20 +24,50 @@ The `--template` flag is used to choose which template to generate the apex code
   - An extendable Apex Trigger Handler virtual class: https://github.com/k-capehart/sfdc-trigger-framework
   - A Custom Setting called BypassAutomation\_\_c
   - A checkbox field on BypassAutomation for the given Salesforce object
-  - An Apex trigger
-  - An Apex handler class that extends the virtual class, and uses the BypassAutomation\_\_c object to determine if logic should be skipped
+  - An Apex trigger that calls a handler class
+  - An Apex handler class that extends the virtual class and uses the BypassAutomation\_\_c object to determine if logic should be skipped
   - An Apex helper class
   - An Apex test class for the helper class
 
-If you want to override a given template, then use the `--template-override` flag. The value given to the flag should be the path to a directory containing identically named files for a given template.
-For example, to override template 1:
+If you want to create a custom template, then use the `--custom-template` flag. The value given to the flag should be the path to a directory containing templates for classes, triggers, objects, and/or fields. The directory should contain a `init.json` and `sobject.json` that provide instructions on which files to use, what their final name should be, and what type of file they are. `init.json` is used with the `--init` flag. `sobject.json` is used with the `--sobject` flag.
 
-1. Copy and paste the contents of this folder into a local directory, such as `templates/`: https://github.com/k-capehart/kc-sf-plugin/tree/main/src/templates/template-1
-2. Modify the content of the text files according to your specific needs
-   - Note that `{{sobject}}` is a token that will be replaced with the given Salesforce Object name given in the `--sobject` flag
-3. Run the commands:
-   <br/>`$ sf kc trigger-framework --template 1 --template-override templates/ --init`
-   <br/>`$ sf kc trigger-framework --template 1 --template-override templates/ --sobject Account`
+For example, imagine the following JSON file is stored at the relative path of `templates/sobject.json`. It is assumed that within this directory are also 5 other files called `BypassCustomField.txt`, `SObjectTrigger.txt`, `SObjectTriggerHandler.txt`, `SObjectTriggerHelper.txt`, and `SObjectTriggerHelper_Test.txt`. The `{{sobject}}` token is replaced with the value given in the `--sobject` flag.
+
+```json
+{
+  "BypassCustomField.txt": {
+    "type": "field",
+    "name": "{{sobject}}__c",
+    "object": "BypassAutomation__c"
+  },
+  "SObjectTrigger.txt": {
+    "type": "trigger",
+    "name": "{{sobject}}Trigger"
+  },
+  "SObjectTriggerHandler.txt": {
+    "type": "class",
+    "name": "{{sobject}}TriggerHandler"
+  },
+  "SObjectTriggerHelper.txt": {
+    "type": "class",
+    "name": "{{sobject}}Helper"
+  },
+  "SObjectTriggerHelper_Test.txt": {
+    "type": "class",
+    "name": "{{sobject}}Helper_Test"
+  }
+}
+```
+
+Running the command: `sf kc trigger-framework --custom-template templates/ --sobject Account` will create a 5 files:
+
+- Account\_\_c.field-meta.xml
+- AccountTrigger.trigger
+- AccountTriggerHandler.cls
+- AccountTriggerHelper.cls
+- AccountTriggerHelper_Test.cls
+
+For more template examples: https://github.com/k-capehart/kc-sf-plugin/tree/main/src/templates/
 
 ## Commands
 

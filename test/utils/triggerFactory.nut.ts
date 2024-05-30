@@ -4,7 +4,7 @@ import { expect } from 'chai';
 import { TestSession } from '@salesforce/cli-plugins-testkit';
 import assert from 'yeoman-assert';
 import { TemplateFiles } from '../../src/utils/types.js';
-import { copyApexClass, createApexFile, createCustomObject, createField } from '../../src/utils/triggerFactory.js';
+import { createApexFile, createCustomObject, createField } from '../../src/utils/triggerFactory.js';
 
 describe('kc apex-factory trigger-framework trigger', () => {
   let session: TestSession;
@@ -23,32 +23,12 @@ describe('kc apex-factory trigger-framework trigger', () => {
     await session?.clean();
   });
 
-  it('copies apex file to a path', async () => {
-    const result = copyApexClass(
-      TemplateFiles.TriggerHandlerVirtualClass,
-      'TriggerHandler.cls',
-      session.project.dir,
-      template1Dir
-    );
-    expect(result).to.equal('TriggerHandler.cls');
-  });
-
-  it('does not copy apex file to a path because it already exists', async () => {
-    const result = copyApexClass(
-      TemplateFiles.TriggerHandlerVirtualClass,
-      'TriggerHandler.cls',
-      session.project.dir,
-      template1Dir
-    );
-    expect(result).to.equal('');
-  });
-
   it('creates apex trigger to a path and replaces tokens', async () => {
     const triggerDir = session.project.dir.concat('/force-app/main/default/triggers/');
     const tokens = new Map<string, string>([['{{sobject}}', 'Account']]);
     const result = createApexFile(
       TemplateFiles.SObjectTrigger,
-      'AccountTrigger.trigger',
+      'AccountTrigger',
       triggerDir,
       'trigger',
       tokens,
@@ -62,7 +42,7 @@ describe('kc apex-factory trigger-framework trigger', () => {
     const triggerDir = session.project.dir.concat('/force-app/main/default/triggers/');
     const result = createApexFile(
       TemplateFiles.SObjectTrigger,
-      'AccountTrigger.trigger',
+      'AccountTrigger',
       triggerDir,
       'trigger',
       new Map<string, string>(),
@@ -76,7 +56,7 @@ describe('kc apex-factory trigger-framework trigger', () => {
     const tokens = new Map<string, string>([['{{sobject}}', 'Account']]);
     const result = createApexFile(
       TemplateFiles.SObjectHandler,
-      'AccountTriggerHandler.cls',
+      'AccountTriggerHandler',
       classesDir,
       'class',
       tokens,
@@ -94,17 +74,17 @@ describe('kc apex-factory trigger-framework trigger', () => {
     const tokens = new Map<string, string>([['{{sobject}}', 'Account']]);
     const result = createField(
       TemplateFiles.BypassCustomField,
-      'Account.field-meta.xml',
+      'Account__c',
       'BypassAutomation__c',
       objectsDir,
       tokens,
       template1Dir
     );
-    expect(result).to.equal('Account.field-meta.xml');
-    assert.file(path.join(objectsDir.concat('/BypassAutomation__c/fields/Account.field-meta.xml')));
+    expect(result).to.equal('Account__c.field-meta.xml');
+    assert.file(path.join(objectsDir.concat('/BypassAutomation__c/fields/Account__c.field-meta.xml')));
     assert.fileContent(
-      path.join(objectsDir.concat('/BypassAutomation__c/fields/', 'Account.field-meta.xml')),
-      'Account'
+      path.join(objectsDir.concat('/BypassAutomation__c/fields/', 'Account__c.field-meta.xml')),
+      'Account__c'
     );
   });
 
@@ -113,7 +93,7 @@ describe('kc apex-factory trigger-framework trigger', () => {
     const tokens = new Map<string, string>([['{{sobject}}', 'Account']]);
     const result = createField(
       TemplateFiles.BypassCustomField,
-      'Account.field-meta.xml',
+      'Account__c',
       'BypassAutomation__c',
       objectsDir,
       tokens,
@@ -128,6 +108,7 @@ describe('kc apex-factory trigger-framework trigger', () => {
       TemplateFiles.BypassCustomObject,
       'BypassAutomation__c',
       objectsDir,
+      new Map<string, string>(),
       template1Dir
     );
     expect(result).to.equal('BypassAutomation__c.object-meta.xml');
@@ -140,6 +121,7 @@ describe('kc apex-factory trigger-framework trigger', () => {
       TemplateFiles.BypassCustomObject,
       'BypassAutomation__c',
       objectsDir,
+      new Map<string, string>(),
       template1Dir
     );
     expect(result).to.equal('');

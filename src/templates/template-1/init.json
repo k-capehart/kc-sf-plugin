@@ -1,0 +1,15 @@
+{
+  "BypassCustomObject.txt": {
+    "type": "object",
+    "name": "BypassAutomation__c",
+    "init": true
+  },
+  "TriggerHandlerVirtualClass.txt": {
+    "type": "class",
+    "name": "TriggerHandler"
+  },
+  "TriggerHandlerVirtualClass_Test.txt": {
+    "type": "class",
+    "name": "TriggerHandler_Test"
+  }
+}

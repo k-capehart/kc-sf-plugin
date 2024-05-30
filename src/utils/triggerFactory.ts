@@ -3,7 +3,7 @@ import * as path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { Messages } from '@salesforce/core';
 import { ux } from '@oclif/core';
-import { ApexFileType, TemplateFiles, apiVersion } from './types.js';
+import { ApexFileType, JsonData, TemplateFiles, apiVersion } from './types.js';
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
@@ -11,101 +11,72 @@ const sharedTemplates = path.resolve(dirname, '../templates/shared/');
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
 const apexFactoryMessages = Messages.loadMessages('kc-sf-plugin', 'apexFactory');
 
-export const initializeTemplate1 = (targetDir: string, templateDir: string): string[] => {
+export const generateTemplate = (targetDir: string, templateDir: string, init: boolean, sobject?: string): string[] => {
   const createdFiles: string[] = [];
   const classesDir = targetDir.concat('/classes/');
+  const triggersDir = targetDir.concat('/triggers/');
   const customObjectDir = targetDir.concat('/objects/');
-  const customSettingName = 'BypassAutomation__c';
 
-  const triggerHandlerFileName = 'TriggerHandler.cls';
-  createdFiles.push(
-    copyApexClass(TemplateFiles.TriggerHandlerVirtualClass, triggerHandlerFileName, classesDir, templateDir)
-  );
-
-  const triggerHandlerTestFileName = 'TriggerHandler_Test.cls';
-  createdFiles.push(
-    copyApexClass(TemplateFiles.TriggerHandlerVirtualClassTest, triggerHandlerTestFileName, classesDir, templateDir)
-  );
-
-  createdFiles.push(
-    createCustomObject(TemplateFiles.BypassCustomObject, customSettingName, customObjectDir, templateDir)
-  );
-
-  return createdFiles;
-};
-
-export const generateTemplate1 = (sobjects: string[], targetDir: string, templateDir: string): string[] => {
-  const createdFiles: string[] = [];
-  const classesDir = targetDir.concat('/classes/');
-  const triggerDir = targetDir.concat('/triggers/');
-  const customObjectDir = targetDir.concat('/objects/');
-  const customSettingName = 'BypassAutomation__c';
-
-  sobjects.forEach((sobject) => {
-    const tokens = new Map<string, string>([['{{sobject}}', sobject]]);
-
-    const triggerName = sobject.concat('Trigger.trigger');
-    createdFiles.push(
-      createApexFile(TemplateFiles.SObjectTrigger, triggerName, triggerDir, 'trigger', tokens, templateDir)
-    );
-
-    const handlerName = sobject.concat('TriggerHandler.cls');
-    createdFiles.push(
-      createApexFile(TemplateFiles.SObjectHandler, handlerName, classesDir, 'class', tokens, templateDir)
-    );
-
-    const helperName = sobject.concat('Helper.cls');
-    createdFiles.push(
-      createApexFile(TemplateFiles.SObjectHelper, helperName, classesDir, 'class', tokens, templateDir)
-    );
-
-    const helperTestName = sobject.concat('Helper_Test.cls');
-    createdFiles.push(
-      createApexFile(TemplateFiles.SObjectHelperTest, helperTestName, classesDir, 'class', tokens, templateDir)
-    );
-
-    const bypassFieldName = sobject.concat('__c.field-meta.xml');
-    createdFiles.push(
-      createField(
-        TemplateFiles.BypassCustomField,
-        bypassFieldName,
-        customSettingName,
-        customObjectDir,
-        tokens,
-        templateDir
-      )
-    );
-  });
-
-  return createdFiles;
-};
-
-export const copyApexClass = (
-  template: string,
-  outputFileName: string,
-  targetDir: string,
-  templateDir: string
-): string => {
-  const classTemplate = path.resolve(templateDir, template);
-  const classDefTemplate = path.resolve(sharedTemplates, TemplateFiles.ApexClassDefinition);
-  const classDefContent = fs.readFileSync(classDefTemplate, 'utf-8').replaceAll('{{apiVersion}}', apiVersion);
-
-  verifyDirectory(targetDir);
-  const outputDir = targetDir.concat(outputFileName);
-  if (!fs.existsSync(outputDir)) {
-    fs.copyFileSync(classTemplate, outputDir);
-    fs.writeFileSync(outputDir.concat('-meta.xml'), classDefContent);
-    ux.log(apexFactoryMessages.getMessage('file.created', [outputDir]));
-    return outputFileName;
+  let instructions: string;
+  const tokens = new Map<string, string>();
+  if (sobject !== undefined) {
+    tokens.set('{{sobject}}', sobject);
+    instructions = path.resolve(templateDir, 'sobject.json');
   } else {
-    ux.log(apexFactoryMessages.getMessage('file.exists', [outputDir]));
+    instructions = path.resolve(templateDir, 'init.json');
   }
-  return '';
+  const data = fs.readFileSync(instructions, 'utf-8');
+  const jsonData = JSON.parse(data) as JsonData;
+
+  for (const [template, details] of Object.entries(jsonData)) {
+    let fileName = details.name;
+    for (const [key, val] of tokens) {
+      fileName = fileName.replaceAll(key, val);
+    }
+
+    switch (details.type) {
+      case 'class':
+        createdFiles.push(createApexFile(template, fileName, classesDir, details.type, tokens, templateDir));
+        break;
+      case 'trigger':
+        createdFiles.push(createApexFile(template, fileName, triggersDir, details.type, tokens, templateDir));
+        break;
+      case 'object':
+        createdFiles.push(createCustomObject(template, fileName, customObjectDir, tokens, templateDir));
+        break;
+      case 'field':
+        createdFiles.push(createField(template, fileName, details.object, customObjectDir, tokens, templateDir));
+        break;
+      default:
+        break;
+    }
+  }
+
+  return [''];
+};
+
+export const generateTemplates = (
+  targetDir: string,
+  templateDir: string,
+  init: boolean,
+  sobjects?: string[]
+): string[] => {
+  const createdFiles: string[] = [];
+
+  if (sobjects !== undefined) {
+    sobjects.forEach((sobject) => {
+      createdFiles.push(...generateTemplate(targetDir, templateDir, init, sobject));
+    });
+  } else if (init) {
+    createdFiles.push(...generateTemplate(targetDir, templateDir, init));
+  }
+
+  return createdFiles;
 };
 
 export const createApexFile = (
   template: string,
-  outputFileName: string,
+  name: string,
   targetDir: string,
   type: ApexFileType,
   tokens: Map<string, string>,
@@ -113,11 +84,14 @@ export const createApexFile = (
 ): string => {
   const apexTemplate = path.resolve(templateDir, template);
   let apexDefTemplate: string;
+  let outputFileName: string;
 
   if (type === 'class') {
     apexDefTemplate = path.resolve(sharedTemplates, TemplateFiles.ApexClassDefinition);
+    outputFileName = name.concat('.cls');
   } else {
     apexDefTemplate = path.resolve(sharedTemplates, TemplateFiles.ApexTriggerDefinition);
+    outputFileName = name.concat('.trigger');
   }
   const apexDefContent = fs.readFileSync(apexDefTemplate, 'utf-8').replaceAll('{{apiVersion}}', apiVersion);
   let apexTemplateContent = fs.readFileSync(apexTemplate, 'utf-8');
@@ -142,11 +116,15 @@ export const createCustomObject = (
   template: string,
   objectName: string,
   targetDir: string,
+  tokens: Map<string, string>,
   templateDir: string
 ): string => {
-  const objectTemplate = path.resolve(templateDir, template);
-  const objectTemplateContent = fs.readFileSync(objectTemplate, 'utf-8');
   const outputFileName = objectName.concat('.object-meta.xml');
+  const objectTemplate = path.resolve(templateDir, template);
+  let objectTemplateContent = fs.readFileSync(objectTemplate, 'utf-8');
+  for (const [key, val] of tokens) {
+    objectTemplateContent = objectTemplateContent.replaceAll(key, val);
+  }
 
   let outputDir = targetDir.concat(objectName);
   verifyDirectory(outputDir);
@@ -163,12 +141,13 @@ export const createCustomObject = (
 
 export const createField = (
   template: string,
-  outputFileName: string,
+  fieldName: string,
   object: string,
   targetDir: string,
   tokens: Map<string, string>,
   templateDir: string
 ): string => {
+  const outputFileName = fieldName.concat('.field-meta.xml');
   const fieldTemplate = path.resolve(templateDir, template);
   let fieldTemplateContent = fs.readFileSync(fieldTemplate, 'utf-8');
   for (const [key, val] of tokens) {
