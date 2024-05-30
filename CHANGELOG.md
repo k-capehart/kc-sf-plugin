@@ -1,3 +1,12 @@
+# [1.4.0](https://github.com/k-capehart/kc-sf-plugin/compare/1.3.2...1.4.0) (2024-05-30)
+
+
+### Features
+
+* combine trigger-framework commands, add custom templates ([#23](https://github.com/k-capehart/kc-sf-plugin/issues/23)) ([351d7b1](https://github.com/k-capehart/kc-sf-plugin/commit/351d7b10b10ff5c28200fc99c30453b14df967c1))
+
+
+
 ## [1.3.2](https://github.com/k-capehart/kc-sf-plugin/compare/1.3.0...1.3.2) (2024-05-28)
 
 
