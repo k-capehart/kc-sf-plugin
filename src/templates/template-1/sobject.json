@@ -1,0 +1,23 @@
+{
+  "BypassCustomField.txt": {
+    "type": "field",
+    "name": "{{sobject}}__c",
+    "object": "BypassAutomation__c"
+  },
+  "SObjectTrigger.txt": {
+    "type": "trigger",
+    "name": "{{sobject}}Trigger"
+  },
+  "SObjectTriggerHandler.txt": {
+    "type": "class",
+    "name": "{{sobject}}TriggerHandler"
+  },
+  "SObjectTriggerHelper.txt": {
+    "type": "class",
+    "name": "{{sobject}}Helper"
+  },
+  "SObjectTriggerHelper_Test.txt": {
+    "type": "class",
+    "name": "{{sobject}}Helper_Test"
+  }
+}

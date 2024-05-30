@@ -1,12 +1,16 @@
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { expect } from 'chai';
 import { TestSession } from '@salesforce/cli-plugins-testkit';
 import assert from 'yeoman-assert';
 import { TemplateFiles } from '../../src/utils/types.js';
-import { copyApexClass, createApexFile, createCustomObject, createField } from '../../src/utils/apexFactory.js';
+import { createApexFile, createCustomObject, createField } from '../../src/utils/triggerFactory.js';
 
 describe('kc apex-factory trigger-framework trigger', () => {
   let session: TestSession;
+  const filename = fileURLToPath(import.meta.url);
+  const dirname = path.dirname(filename);
+  const template1Dir = path.resolve(dirname, '../../src/templates/template-1/');
 
   before(async () => {
     session = await TestSession.create({
@@ -19,26 +23,16 @@ describe('kc apex-factory trigger-framework trigger', () => {
     await session?.clean();
   });
 
-  it('copies apex file to a path', async () => {
-    const result = copyApexClass(TemplateFiles.TriggerHandlerVirtualClass, 'TriggerHandler.cls', session.project.dir);
-    expect(result).to.equal('TriggerHandler.cls');
-  });
-
-  it('does not copy apex file to a path because it already exists', async () => {
-    copyApexClass(TemplateFiles.TriggerHandlerVirtualClass, 'TriggerHandler.cls', session.project.dir);
-    const result = copyApexClass(TemplateFiles.TriggerHandlerVirtualClass, 'TriggerHandler.cls', session.project.dir);
-    expect(result).to.equal('');
-  });
-
   it('creates apex trigger to a path and replaces tokens', async () => {
     const triggerDir = session.project.dir.concat('/force-app/main/default/triggers/');
     const tokens = new Map<string, string>([['{{sobject}}', 'Account']]);
     const result = createApexFile(
       TemplateFiles.SObjectTrigger,
-      'AccountTrigger.trigger',
+      'AccountTrigger',
       triggerDir,
       'trigger',
-      tokens
+      tokens,
+      template1Dir
     );
     expect(result).to.equal('AccountTrigger.trigger');
     assert.fileContent(path.join(triggerDir, 'AccountTrigger.trigger'), 'trigger AccountTrigger on Account');
@@ -48,10 +42,11 @@ describe('kc apex-factory trigger-framework trigger', () => {
     const triggerDir = session.project.dir.concat('/force-app/main/default/triggers/');
     const result = createApexFile(
       TemplateFiles.SObjectTrigger,
-      'AccountTrigger.trigger',
+      'AccountTrigger',
       triggerDir,
       'trigger',
-      new Map<string, string>()
+      new Map<string, string>(),
+      template1Dir
     );
     expect(result).to.equal('');
   });
@@ -61,10 +56,11 @@ describe('kc apex-factory trigger-framework trigger', () => {
     const tokens = new Map<string, string>([['{{sobject}}', 'Account']]);
     const result = createApexFile(
       TemplateFiles.SObjectHandler,
-      'AccountTriggerHandler.cls',
+      'AccountTriggerHandler',
       classesDir,
       'class',
-      tokens
+      tokens,
+      template1Dir
     );
     expect(result).to.equal('AccountTriggerHandler.cls');
     assert.fileContent(
@@ -78,16 +74,17 @@ describe('kc apex-factory trigger-framework trigger', () => {
     const tokens = new Map<string, string>([['{{sobject}}', 'Account']]);
     const result = createField(
       TemplateFiles.BypassCustomField,
-      'Account.field-meta.xml',
+      'Account__c',
       'BypassAutomation__c',
       objectsDir,
-      tokens
+      tokens,
+      template1Dir
     );
-    expect(result).to.equal('Account.field-meta.xml');
-    assert.file(path.join(objectsDir.concat('/BypassAutomation__c/fields/Account.field-meta.xml')));
+    expect(result).to.equal('Account__c.field-meta.xml');
+    assert.file(path.join(objectsDir.concat('/BypassAutomation__c/fields/Account__c.field-meta.xml')));
     assert.fileContent(
-      path.join(objectsDir.concat('/BypassAutomation__c/fields/', 'Account.field-meta.xml')),
-      'Account'
+      path.join(objectsDir.concat('/BypassAutomation__c/fields/', 'Account__c.field-meta.xml')),
+      'Account__c'
     );
   });
 
@@ -96,24 +93,37 @@ describe('kc apex-factory trigger-framework trigger', () => {
     const tokens = new Map<string, string>([['{{sobject}}', 'Account']]);
     const result = createField(
       TemplateFiles.BypassCustomField,
-      'Account.field-meta.xml',
+      'Account__c',
       'BypassAutomation__c',
       objectsDir,
-      tokens
+      tokens,
+      template1Dir
     );
     expect(result).to.equal('');
   });
 
   it('creates custom object to a path', async () => {
     const objectsDir = session.project.dir.concat('/force-app/main/default/objects/');
-    const result = createCustomObject(TemplateFiles.BypassCustomObject, 'BypassAutomation__c', objectsDir);
+    const result = createCustomObject(
+      TemplateFiles.BypassCustomObject,
+      'BypassAutomation__c',
+      objectsDir,
+      new Map<string, string>(),
+      template1Dir
+    );
     expect(result).to.equal('BypassAutomation__c.object-meta.xml');
     assert.file(path.join(objectsDir.concat('/BypassAutomation__c/BypassAutomation__c.object-meta.xml')));
   });
 
   it('does not create a custom object because it already exists', async () => {
     const objectsDir = session.project.dir.concat('/force-app/main/default/objects/');
-    const result = createCustomObject(TemplateFiles.BypassCustomObject, 'BypassAutomation__c', objectsDir);
+    const result = createCustomObject(
+      TemplateFiles.BypassCustomObject,
+      'BypassAutomation__c',
+      objectsDir,
+      new Map<string, string>(),
+      template1Dir
+    );
     expect(result).to.equal('');
   });
 });

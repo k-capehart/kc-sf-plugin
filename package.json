@@ -66,12 +66,7 @@
     ],
     "topics": {
       "kc": {
-        "description": "custom commands built by github.com/k-capehart",
-        "subtopics": {
-          "trigger-framework": {
-            "description": "commands for auto generating trigger frameworks"
-          }
-        }
+        "description": "custom commands built by github.com/k-capehart"
       }
     },
     "flexibleTaxonomy": true

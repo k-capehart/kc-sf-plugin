@@ -35,6 +35,16 @@ export type ApexFileType = 'class' | 'trigger';
 
 export const apiVersion: string = '60.0';
 
+export type JsonData = {
+  [key: string]: FileInfo;
+};
+
+export type FileInfo = {
+  type: 'class' | 'trigger' | 'object' | 'field';
+  name: string;
+  object: string;
+};
+
 /** validates source component with fullname, type, and xml props */
 export const isSourceComponent = (sc: ComponentLike): sc is SourceComponent =>
   isObject(sc) &&

@@ -10,40 +10,72 @@ This plugin is bundled with the [Salesforce CLI](https://developer.salesforce.co
 sf plugins install kc-sf-plugin@x.y.z
 ```
 
-### Build
+## Trigger-Framework
 
-To build the plugin locally, make sure to have yarn installed and run the following commands:
+The trigger-framework command covers auto generating triggers, handlers, and other components used in relation to Apex Triggers.
 
-```bash
-# Clone the repository
-git clone git@github.com:salesforcecli/kc-sf-plugin
+First, use the `--init` flag to initialize the framework for a given template. This generates files that should only be created once, like interfaces or custom setting objects.
 
-# Install the dependencies and compile
-yarn && yarn build
+After initializing, use the `--sobject` flag to generate Apex Triggers (and its handler classes) for a given object.
+
+The `--template` flag is used to choose which template to generate the apex code from. The available templates are:
+
+- 1 (default): https://github.com/k-capehart/kc-sf-plugin/tree/main/src/templates/template-1
+  - An extendable Apex Trigger Handler virtual class: https://github.com/k-capehart/sfdc-trigger-framework
+  - A Custom Setting called BypassAutomation\_\_c
+  - A checkbox field on BypassAutomation for the given Salesforce object
+  - An Apex trigger that calls a handler class
+  - An Apex handler class that extends the virtual class and uses the BypassAutomation\_\_c object to determine if logic should be skipped
+  - An Apex helper class
+  - An Apex test class for the helper class
+
+If you want to create a custom template, then use the `--custom-template` flag. The value given to the flag should be the path to a directory containing templates for classes, triggers, objects, and/or fields. The directory should contain a `init.json` and `sobject.json` that provide instructions on which files to use, what their final name should be, and what type of file they are. `init.json` is used with the `--init` flag. `sobject.json` is used with the `--sobject` flag.
+
+For example, imagine the following JSON file is stored at the relative path of `templates/sobject.json`. It is assumed that within this directory are also 5 other files called `BypassCustomField.txt`, `SObjectTrigger.txt`, `SObjectTriggerHandler.txt`, `SObjectTriggerHelper.txt`, and `SObjectTriggerHelper_Test.txt`. The `{{sobject}}` token is replaced with the value given in the `--sobject` flag.
+
+```json
+{
+  "BypassCustomField.txt": {
+    "type": "field",
+    "name": "{{sobject}}__c",
+    "object": "BypassAutomation__c"
+  },
+  "SObjectTrigger.txt": {
+    "type": "trigger",
+    "name": "{{sobject}}Trigger"
+  },
+  "SObjectTriggerHandler.txt": {
+    "type": "class",
+    "name": "{{sobject}}TriggerHandler"
+  },
+  "SObjectTriggerHelper.txt": {
+    "type": "class",
+    "name": "{{sobject}}Helper"
+  },
+  "SObjectTriggerHelper_Test.txt": {
+    "type": "class",
+    "name": "{{sobject}}Helper_Test"
+  }
+}
 ```
 
-To use your plugin, run using the local `./bin/dev` or `./bin/dev.cmd` file.
+Running the command: `sf kc trigger-framework --custom-template templates/ --sobject Account` will create a 5 files:
 
-```bash
-# Run using local run file.
-./bin/dev kc diff
-```
+- Account\_\_c.field-meta.xml
+- AccountTrigger.trigger
+- AccountTriggerHandler.cls
+- AccountTriggerHelper.cls
+- AccountTriggerHelper_Test.cls
 
-There should be no differences when running via the Salesforce CLI or using the local run file. However, it can be useful to link the plugin to do some additional testing or run your commands from anywhere on your machine.
-
-```bash
-# Link your plugin to the sf cli
-sf plugins link .
-# To verify
-sf plugins
-```
+For more template examples: https://github.com/k-capehart/kc-sf-plugin/tree/main/src/templates/
 
 ## Commands
 
 <!-- commands -->
-* [`sf kc diff`](#sf-kc-diff)
-* [`sf kc trigger-framework init`](#sf-kc-trigger-framework-init)
-* [`sf kc trigger-framework trigger`](#sf-kc-trigger-framework-trigger)
+
+- [`sf kc diff`](#sf-kc-diff)
+- [`sf kc trigger-framework init`](#sf-kc-trigger-framework-init)
+- [`sf kc trigger-framework trigger`](#sf-kc-trigger-framework-trigger)
 
 ## `sf kc diff`
 
@@ -161,4 +193,33 @@ EXAMPLES
 ```
 
 _See code: [src/commands/kc/trigger-framework/trigger.ts](https://github.com/k-capehart/kc-sf-plugin/blob/1.3.1/src/commands/kc/trigger-framework/trigger.ts)_
+
 <!-- commandsstop -->
+
+## Build
+
+To build the plugin locally, make sure to have yarn installed and run the following commands:
+
+```bash
+# Clone the repository
+git clone git@github.com:salesforcecli/kc-sf-plugin
+
+# Install the dependencies and compile
+yarn && yarn build
+```
+
+To use your plugin, run using the local `./bin/dev` or `./bin/dev.cmd` file.
+
+```bash
+# Run using local run file.
+./bin/dev kc diff
+```
+
+There should be no differences when running via the Salesforce CLI or using the local run file. However, it can be useful to link the plugin to do some additional testing or run your commands from anywhere on your machine.
+
+```bash
+# Link your plugin to the sf cli
+sf plugins link .
+# To verify
+sf plugins
+```
