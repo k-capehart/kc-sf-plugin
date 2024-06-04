@@ -170,7 +170,7 @@ To build the plugin locally, make sure to have yarn installed and run the follow
 
 ```bash
 # Clone the repository
-git clone git@github.com:salesforcecli/kc-sf-plugin
+git clone git@github.com:k-capehart/kc-sf-plugin
 
 # Install the dependencies and compile
 yarn && yarn build
