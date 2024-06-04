@@ -18,6 +18,8 @@ First, use the `--init` flag to initialize the framework for a given template. T
 
 After initializing, use the `--sobject` flag to generate Apex Triggers (and its handler classes) for a given object.
 
+![Demo of kc trigger-framework command creating triggers and classes](./assets/trigger-framework.gif)
+
 The `--template` flag is used to choose which template to generate the apex code from. The available templates are:
 
 - 1 (default): https://github.com/k-capehart/kc-sf-plugin/tree/main/src/templates/template-1
@@ -59,7 +61,7 @@ For example, imagine the following JSON file is stored at the relative path of `
 }
 ```
 
-Running the command: `sf kc trigger-framework --custom-template templates/ --sobject Account` will create a 5 files:
+Running the command: `sf kc trigger-framework --custom-template templates/ --sobject Account` will create 5 files:
 
 - Account\_\_c.field-meta.xml
 - AccountTrigger.trigger
@@ -72,8 +74,9 @@ For more template examples: https://github.com/k-capehart/kc-sf-plugin/tree/main
 ## Commands
 
 <!-- commands -->
-* [`sf kc diff`](#sf-kc-diff)
-* [`sf kc trigger-framework`](#sf-kc-trigger-framework)
+
+- [`sf kc diff`](#sf-kc-diff)
+- [`sf kc trigger-framework`](#sf-kc-trigger-framework)
 
 ## `sf kc diff`
 
@@ -158,6 +161,7 @@ EXAMPLES
 ```
 
 _See code: [src/commands/kc/trigger-framework.ts](https://github.com/k-capehart/kc-sf-plugin/blob/1.4.0/src/commands/kc/trigger-framework.ts)_
+
 <!-- commandsstop -->
 
 ## Build
