@@ -19,7 +19,7 @@
     "@oclif/core": "^3.26.2",
     "@salesforce/core": "^7.3.8",
     "@salesforce/sf-plugins-core": "^9.0.10",
-    "@salesforce/source-deploy-retrieve": "^11.4.4",
+    "@salesforce/source-deploy-retrieve": "^11.6.7",
     "@salesforce/source-tracking": "^6.2.1",
     "@salesforce/ts-sinon": "^1.4.19",
     "@salesforce/ts-types": "^2.0.9",
