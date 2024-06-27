@@ -14,7 +14,7 @@
   "bugs": {
     "url": "https://github.com/k-capehart/kc-sf-plugin/issues"
   },
-  "homepage": "https://github.com/k-capehart/kc-sf-plugin#readme",
+  "homepage": "https://github.com/k-capehart/kc-sf-plugin",
   "dependencies": {
     "@oclif/core": "^3.26.2",
     "@salesforce/core": "^7.3.8",
