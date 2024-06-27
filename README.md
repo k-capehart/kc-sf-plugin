@@ -74,9 +74,8 @@ For more template examples: https://github.com/k-capehart/kc-sf-plugin/tree/main
 ## Commands
 
 <!-- commands -->
-
-- [`sf kc diff`](#sf-kc-diff)
-- [`sf kc trigger-framework`](#sf-kc-trigger-framework)
+* [`sf kc diff`](#sf-kc-diff)
+* [`sf kc trigger-framework`](#sf-kc-trigger-framework)
 
 ## `sf kc diff`
 
@@ -119,7 +118,7 @@ FLAG DESCRIPTIONS
     Ignore files by placing them in your .forceignore and using this flag.
 ```
 
-_See code: [src/commands/kc/diff.ts](https://github.com/k-capehart/kc-sf-plugin/blob/1.4.0/src/commands/kc/diff.ts)_
+_See code: [src/commands/kc/diff.ts](https://github.com/k-capehart/kc-sf-plugin/blob/1.4.2/src/commands/kc/diff.ts)_
 
 ## `sf kc trigger-framework`
 
@@ -127,7 +126,7 @@ Generate apex trigger frameworks based on templates.
 
 ```
 USAGE
-  $ sf kc trigger-framework [--json] [--flags-dir <value>] [-d <value>] [-i] [-s <value>] [-t 1] [--custom-template
+  $ sf kc trigger-framework [--json] [--flags-dir <value>] [-d <value>] [-i] [-s <value>...] [-t 1] [--custom-template
     <value>]
 
 FLAGS
@@ -160,8 +159,7 @@ EXAMPLES
   $ sf kc trigger-framework --custom-template templates/ --sobject Account
 ```
 
-_See code: [src/commands/kc/trigger-framework.ts](https://github.com/k-capehart/kc-sf-plugin/blob/1.4.0/src/commands/kc/trigger-framework.ts)_
-
+_See code: [src/commands/kc/trigger-framework.ts](https://github.com/k-capehart/kc-sf-plugin/blob/1.4.2/src/commands/kc/trigger-framework.ts)_
 <!-- commandsstop -->
 
 ## Build

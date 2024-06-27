@@ -1,3 +1,16 @@
+## [1.4.2](https://github.com/k-capehart/kc-sf-plugin/compare/1.4.1...1.4.2) (2024-06-27)
+
+
+### Bug Fixes
+
+* **deps:** bump @salesforce/source-deploy-retrieve from 11.6.3 to 11.6.7 ([#37](https://github.com/k-capehart/kc-sf-plugin/issues/37)) ([a53a388](https://github.com/k-capehart/kc-sf-plugin/commit/a53a38882d0195e16f1d9de9b2688cd847018768))
+
+
+
+## [1.4.1](https://github.com/k-capehart/kc-sf-plugin/compare/1.4.0...1.4.1) (2024-06-04)
+
+
+
 # [1.4.0](https://github.com/k-capehart/kc-sf-plugin/compare/1.3.2...1.4.0) (2024-05-30)
 
 
