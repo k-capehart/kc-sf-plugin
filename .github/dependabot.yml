@@ -20,3 +20,6 @@ updates:
       - dependency-name: '@salesforce/dev-scripts'
       - dependency-name: '*'
         update-types: ['version-update:semver-major']
+    groups:
+      dev-dependencies:
+        applies-to: version-updates
