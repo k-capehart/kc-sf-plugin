@@ -1,3 +1,13 @@
+## [1.4.3](https://github.com/k-capehart/kc-sf-plugin/compare/1.4.2...1.4.3) (2024-06-27)
+
+
+### Bug Fixes
+
+* **deps:** bump @salesforce/sf-plugins-core from 9.0.14 to 9.1.1 ([#25](https://github.com/k-capehart/kc-sf-plugin/issues/25)) ([75a4b44](https://github.com/k-capehart/kc-sf-plugin/commit/75a4b44cc7b1b58c74dc3991f1c20fd68b2c12ce))
+* **deps:** bump @salesforce/source-tracking from 6.2.5 to 6.5.1 ([#35](https://github.com/k-capehart/kc-sf-plugin/issues/35)) ([19826f4](https://github.com/k-capehart/kc-sf-plugin/commit/19826f44b4976dcfd25de5ba8340e0ae2cbd3ead))
+
+
+
 ## [1.4.2](https://github.com/k-capehart/kc-sf-plugin/compare/1.4.1...1.4.2) (2024-06-27)
 
 

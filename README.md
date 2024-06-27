@@ -118,7 +118,7 @@ FLAG DESCRIPTIONS
     Ignore files by placing them in your .forceignore and using this flag.
 ```
 
-_See code: [src/commands/kc/diff.ts](https://github.com/k-capehart/kc-sf-plugin/blob/1.4.2/src/commands/kc/diff.ts)_
+_See code: [src/commands/kc/diff.ts](https://github.com/k-capehart/kc-sf-plugin/blob/1.4.3/src/commands/kc/diff.ts)_
 
 ## `sf kc trigger-framework`
 
@@ -159,7 +159,7 @@ EXAMPLES
   $ sf kc trigger-framework --custom-template templates/ --sobject Account
 ```
 
-_See code: [src/commands/kc/trigger-framework.ts](https://github.com/k-capehart/kc-sf-plugin/blob/1.4.2/src/commands/kc/trigger-framework.ts)_
+_See code: [src/commands/kc/trigger-framework.ts](https://github.com/k-capehart/kc-sf-plugin/blob/1.4.3/src/commands/kc/trigger-framework.ts)_
 <!-- commandsstop -->
 
 ## Build
