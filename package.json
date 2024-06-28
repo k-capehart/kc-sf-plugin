@@ -27,14 +27,14 @@
   },
   "devDependencies": {
     "@oclif/plugin-command-snapshot": "^5.2.3",
-    "@salesforce/cli-plugins-testkit": "^5.3.8",
+    "@salesforce/cli-plugins-testkit": "^5.3.16",
     "@salesforce/dev-scripts": "^10.2.2",
     "@types/yeoman-assert": "^3.1.4",
-    "eslint-plugin-sf-plugin": "^1.18.3",
-    "oclif": "^4.13.7",
+    "eslint-plugin-sf-plugin": "^1.18.9",
+    "oclif": "^4.13.10",
     "shx": "0.3.4",
     "ts-node": "^10.9.2",
-    "typescript": "^5.4.5",
+    "typescript": "^5.5.2",
     "yeoman-assert": "^3.1.1"
   },
   "engines": {
