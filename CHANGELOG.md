@@ -1,3 +1,12 @@
+## [1.4.4](https://github.com/k-capehart/kc-sf-plugin/compare/1.4.3...1.4.4) (2024-06-28)
+
+
+### Bug Fixes
+
+* add new prod group ([#43](https://github.com/k-capehart/kc-sf-plugin/issues/43)) ([6654792](https://github.com/k-capehart/kc-sf-plugin/commit/6654792e39c553a05bb783a89d2a3f2fd1d9879b))
+
+
+
 ## [1.4.3](https://github.com/k-capehart/kc-sf-plugin/compare/1.4.2...1.4.3) (2024-06-27)
 
 
