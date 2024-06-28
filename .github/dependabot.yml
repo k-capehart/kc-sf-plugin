@@ -23,3 +23,13 @@ updates:
     groups:
       dev-dependencies:
         applies-to: version-updates
+        dependency-type: development
+        update-types:
+        - "minor"
+        - "patch"
+      prod-dependencies:
+        applies-to: version-updates
+        dependency-type: production
+        update-types:
+        - "minor"
+        - "patch"
