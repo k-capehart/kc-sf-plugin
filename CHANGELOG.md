@@ -1,3 +1,7 @@
+## [1.4.5](https://github.com/k-capehart/kc-sf-plugin/compare/1.4.4...1.4.5) (2024-07-03)
+
+
+
 ## [1.4.4](https://github.com/k-capehart/kc-sf-plugin/compare/1.4.3...1.4.4) (2024-06-28)
 
 
