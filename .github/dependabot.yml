@@ -18,18 +18,7 @@ updates:
       prefix-development: chore(dev-deps)
     ignore:
       - dependency-name: '@salesforce/dev-scripts'
-      - dependency-name: '*'
-        update-types: ['version-update:semver-major']
     groups:
-      dev-dependencies:
-        applies-to: version-updates
-        dependency-type: development
-        update-types:
-        - "minor"
-        - "patch"
-      prod-dependencies:
-        applies-to: version-updates
-        dependency-type: production
-        update-types:
-        - "minor"
-        - "patch"
+      dependencies:
+        patterns:
+          - '*'

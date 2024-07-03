@@ -1,8 +1,7 @@
 // Much of the code in this file is taken from: https://github.com/salesforcecli/plugin-deploy-retrieve
 
 import { isAbsolute, relative, resolve } from 'node:path';
-
-import { ux } from '@oclif/core';
+import { Ux } from '@salesforce/sf-plugins-core';
 import { StandardColors } from '@salesforce/sf-plugins-core';
 import chalk from 'chalk';
 import { Messages, Org, SfProject } from '@salesforce/core';
@@ -26,6 +25,7 @@ import { API, isSourceComponentWithXml } from './types.js';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
 const messages = Messages.loadMessages('kc-sf-plugin', 'previewMessages');
+const ux = new Ux();
 
 type BaseOperation = 'deploy' | 'retrieve';
 

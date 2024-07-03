@@ -1,6 +1,7 @@
-import { ux } from '@oclif/core';
+import { Ux } from '@salesforce/sf-plugins-core';
 import { expect } from 'chai';
 import { TestContext } from '@salesforce/core/testSetup';
+import sinon from 'sinon';
 import { PreviewResult, printTables } from '../../src/utils/diffSource.js';
 
 const mockRetrievePreviewOutput: PreviewResult = {
@@ -102,9 +103,10 @@ const mockDeployPreviewOutput: PreviewResult = {
 describe('diff table', () => {
   let tableStub: sinon.SinonStub;
   const $$ = new TestContext();
+  const sandbox = sinon.createSandbox();
 
   beforeEach(() => {
-    tableStub = $$.SANDBOX.stub(ux, 'table');
+    tableStub = sandbox.stub(Ux.prototype, 'table');
   });
 
   afterEach(() => {

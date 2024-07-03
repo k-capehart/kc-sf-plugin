@@ -2,12 +2,13 @@ import * as fs from 'node:fs';
 import * as path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { Messages } from '@salesforce/core';
-import { ux } from '@oclif/core';
+import { Ux } from '@salesforce/sf-plugins-core';
 import { ApexFileType, JsonData, TemplateFiles, apiVersion } from './types.js';
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
 const sharedTemplates = path.resolve(dirname, '../templates/shared/');
+const ux = new Ux();
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
 const apexFactoryMessages = Messages.loadMessages('kc-sf-plugin', 'apexFactory');
 
@@ -29,7 +30,7 @@ export const generateTemplate = (targetDir: string, templateDir: string, init: b
   const jsonData = JSON.parse(data) as JsonData;
 
   for (const [template, details] of Object.entries(jsonData)) {
-    let fileName = details.name;
+    let fileName: string = details.name;
     for (const [key, val] of tokens) {
       fileName = fileName.replaceAll(key, val);
     }
