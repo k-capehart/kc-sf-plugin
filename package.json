@@ -16,7 +16,7 @@
   },
   "homepage": "https://github.com/k-capehart/kc-sf-plugin",
   "dependencies": {
-    "@oclif/core": "^4.0.8",
+    "@oclif/core": "^4.0.17",
     "@salesforce/core": "^8.1.1",
     "@salesforce/sf-plugins-core": "^11.1.2",
     "@salesforce/source-deploy-retrieve": "^12.1.4",
@@ -31,7 +31,7 @@
     "@salesforce/dev-scripts": "^10.2.4",
     "@types/yeoman-assert": "^3.1.4",
     "eslint-plugin-sf-plugin": "^1.18.10",
-    "oclif": "^4.13.12",
+    "oclif": "^4.14.12",
     "shx": "0.3.4",
     "ts-node": "^10.9.2",
     "typescript": "^5.5.3",
