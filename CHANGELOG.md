@@ -1,3 +1,12 @@
+## [1.4.6](https://github.com/k-capehart/kc-sf-plugin/compare/1.4.5...1.4.6) (2024-07-30)
+
+
+### Bug Fixes
+
+* **deps:** bump @salesforce/core in the dependencies group ([#48](https://github.com/k-capehart/kc-sf-plugin/issues/48)) ([a057c3e](https://github.com/k-capehart/kc-sf-plugin/commit/a057c3ea51a19a593f5d4c08d561ac6d1899cc68))
+
+
+
 ## [1.4.5](https://github.com/k-capehart/kc-sf-plugin/compare/1.4.4...1.4.5) (2024-07-03)
 
 
