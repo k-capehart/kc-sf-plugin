@@ -17,7 +17,7 @@
   "homepage": "https://github.com/k-capehart/kc-sf-plugin",
   "dependencies": {
     "@oclif/core": "^4.0.8",
-    "@salesforce/core": "^8.1.0",
+    "@salesforce/core": "^8.1.1",
     "@salesforce/sf-plugins-core": "^11.1.2",
     "@salesforce/source-deploy-retrieve": "^12.1.4",
     "@salesforce/source-tracking": "^7.0.5",
