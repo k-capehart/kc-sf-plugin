@@ -1,3 +1,12 @@
+## [1.4.8](https://github.com/k-capehart/kc-sf-plugin/compare/1.4.7...1.4.8) (2024-09-12)
+
+
+### Bug Fixes
+
+* **deps:** bump micromatch from 4.0.7 to 4.0.8 ([#54](https://github.com/k-capehart/kc-sf-plugin/issues/54)) ([02980cf](https://github.com/k-capehart/kc-sf-plugin/commit/02980cf9e1cba2a518169d1512bd76742d6b7332))
+
+
+
 ## [1.4.7](https://github.com/k-capehart/kc-sf-plugin/compare/1.4.6...1.4.7) (2024-08-08)
 
 
