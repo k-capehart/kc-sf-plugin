@@ -12,51 +12,70 @@ sf plugins install kc-sf-plugin@x.y.z
 
 ## Trigger-Framework
 
-The trigger-framework command covers auto generating triggers, handlers, and other components used in relation to Apex Triggers.
+The trigger-framework command auto generates components used in relation to Apex Triggers.
 
 First, use the `--init` flag to initialize the framework for a given template. This generates files that should only be created once, like interfaces or custom setting objects.
 
-After initializing, use the `--sobject` flag to generate Apex Triggers (and its handler classes) for a given object.
+After initializing, use the `--sobject` flag to add a given object to the framework.
 
 ![Demo of kc trigger-framework command creating triggers and classes](./assets/trigger-framework.gif)
 
 The `--template` flag is used to choose which template to generate the apex code from. The available templates are:
 
 - 1 (default): https://github.com/k-capehart/kc-sf-plugin/tree/main/src/templates/template-1
-  - An extendable Apex Trigger Handler virtual class: https://github.com/k-capehart/sfdc-trigger-framework
-  - A Custom Setting called BypassAutomation\_\_c
-  - A checkbox field on BypassAutomation for the given Salesforce object
-  - An Apex trigger that calls a handler class
-  - An Apex handler class that extends the virtual class and uses the BypassAutomation\_\_c object to determine if logic should be skipped
-  - An Apex helper class
-  - An Apex test class for the helper class
 
-If you want to create a custom template, then use the `--custom-template` flag. The value given to the flag should be the path to a directory containing templates for classes, triggers, objects, and/or fields. The directory should contain a `init.json` and `sobject.json` that provide instructions on which files to use, what their final name should be, and what type of file they are. `init.json` is used with the `--init` flag. `sobject.json` is used with the `--sobject` flag.
+  - Based on: https://github.com/kevinohara80/sfdc-trigger-framework
+    - Fork with extra features: https://github.com/k-capehart/sfdc-trigger-framework
+  - A Custom Setting called BypassAutomation\_\_c with checkbox fields for Salesforce objects
+    - Allows disabling of triggers on a per object basis either globally or for a given user
+  - Extendable Apex class for trigger handler functionality: TriggerHandler
+  - Apex trigger, Handler, and Helper class for a Salesforce object
+  - Apex test classes
 
-For example, imagine the following JSON file is stored at the relative path of `templates/sobject.json`. It is assumed that within this directory are also 5 other files called `BypassCustomField.txt`, `SObjectTrigger.txt`, `SObjectTriggerHandler.txt`, `SObjectTriggerHelper.txt`, and `SObjectTriggerHelper_Test.txt`. The `{{sobject}}` token is replaced with the value given in the `--sobject` flag.
+- 2: https://github.com/k-capehart/kc-sf-plugin/tree/main/src/templates/template-2
+
+  - Based on: https://github.com/trailheadapps/apex-recipes
+  - 2 Custom Metadata objects: Metadata_Driven_Trigger and Disabled_For
+    - Allows defining the order of execution for trigger handlers, and disable triggers either globally or for a given user
+  - Extendable Apex classes for trigger handler functionality: TriggerHandler, MetadataTriggerHandler, and MetadataTriggerService
+  - Apex trigger, Handler, and helper class for a Salesforce object
+
+If you want to create a custom template, then use the `--custom-template` flag. The value given to the flag should be the path to a directory containing templates for classes, triggers, objects, etc. The directory should contain a `init.json` and `sobject.json` that provide instructions on which files to use. There are 3 required fields for each template:
+
+- `name`: The API name for the component (i.e. `TriggerHandler` or `Enabled\_\_c`)
+- `fileType`: The file extension for the component (i.e. `.cls` or `.field-meta.xml`)
+- `targetDir`: The file path within a salesforce dx project where the component should be created (i.e. `/classes/` or `/objects/Metadata_Driven_Trigger__mdt/fields/`)
+
+`init.json` is used with the `--init` flag. `sobject.json` is used with the `--sobject` flag.
+
+For example, imagine the following JSON file is stored at the relative path of `templates/sobject.json`. It is assumed that within this directory are also 5 other files called `BypassCustomField.txt`, `SObjectTrigger.txt`, `SObjectTriggerHandler.txt`, `SObjectTriggerHelper.txt`, and `SObjectTriggerHelper_Test.txt`. The `{{sobject}}` token is replaced at runtime with the value given in the `--sobject` flag.
 
 ```json
 {
   "BypassCustomField.txt": {
-    "type": "field",
     "name": "{{sobject}}__c",
-    "object": "BypassAutomation__c"
+    "fileType": ".field-meta.xml",
+    "targetDir": "/objects/BypassAutomation__c/fields/"
   },
   "SObjectTrigger.txt": {
-    "type": "trigger",
-    "name": "{{sobject}}Trigger"
+    "name": "{{sobject}}Trigger",
+    "fileType": ".trigger",
+    "targetDir": "/triggers/"
   },
   "SObjectTriggerHandler.txt": {
-    "type": "class",
-    "name": "{{sobject}}TriggerHandler"
+    "name": "{{sobject}}TriggerHandler",
+    "fileType": ".cls",
+    "targetDir": "/classes/"
   },
   "SObjectTriggerHelper.txt": {
-    "type": "class",
-    "name": "{{sobject}}Helper"
+    "name": "{{sobject}}Helper",
+    "fileType": ".cls",
+    "targetDir": "/classes/"
   },
   "SObjectTriggerHelper_Test.txt": {
-    "type": "class",
-    "name": "{{sobject}}Helper_Test"
+    "name": "{{sobject}}Helper_Test",
+    "fileType": ".cls",
+    "targetDir": "/classes/"
   }
 }
 ```
@@ -74,8 +93,9 @@ For more template examples: https://github.com/k-capehart/kc-sf-plugin/tree/main
 ## Commands
 
 <!-- commands -->
-* [`sf kc diff`](#sf-kc-diff)
-* [`sf kc trigger-framework`](#sf-kc-trigger-framework)
+
+- [`sf kc diff`](#sf-kc-diff)
+- [`sf kc trigger-framework`](#sf-kc-trigger-framework)
 
 ## `sf kc diff`
 
@@ -160,6 +180,7 @@ EXAMPLES
 ```
 
 _See code: [src/commands/kc/trigger-framework.ts](https://github.com/k-capehart/kc-sf-plugin/blob/1.4.9/src/commands/kc/trigger-framework.ts)_
+
 <!-- commandsstop -->
 
 ## Build

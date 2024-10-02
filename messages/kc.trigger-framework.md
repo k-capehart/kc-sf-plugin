@@ -4,7 +4,7 @@ Generate apex trigger frameworks based on templates.
 
 # description
 
-Given an SObject, creates a Trigger and accompanying handler classes and components.
+Given an SObject, creates a Trigger and related components.
 
 Use the `--init` flag to initialize the framework, then the `--sobject` flag to create triggers based on the framework.
 
