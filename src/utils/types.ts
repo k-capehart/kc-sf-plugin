@@ -31,18 +31,17 @@ export type PathInfo = {
   path: string;
 };
 
-export type ApexFileType = 'class' | 'trigger';
-
-export const apiVersion: string = '60.0';
+export const apiVersion: string = '61.0';
 
 export type JsonData = {
   [key: string]: FileInfo;
 };
 
 export type FileInfo = {
-  type: 'class' | 'trigger' | 'object' | 'field';
   name: string;
   object: string;
+  fileType: string;
+  targetDir: string;
 };
 
 /** validates source component with fullname, type, and xml props */

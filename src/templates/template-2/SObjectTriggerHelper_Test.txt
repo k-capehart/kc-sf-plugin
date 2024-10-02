@@ -1,0 +1,4 @@
+@isTest(SeeAllData=false)
+public with sharing class {{sobject}}Helper_Test {
+
+}

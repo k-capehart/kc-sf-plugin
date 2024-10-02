@@ -1,0 +1,92 @@
+{
+  "TriggerCustomMetadata.txt": {
+    "name": "Metadata_Driven_Trigger__mdt",
+    "fileType": ".object-meta.xml",
+    "targetDir": "/objects/"
+  },
+  "ClassField.txt": {
+    "name": "Class__c",
+    "fileType": ".field-meta.xml",
+    "targetDir": "/objects/Metadata_Driven_Trigger__mdt/fields/"
+  },
+  "EnabledField.txt": {
+    "name": "Enabled__c",
+    "fileType": ".field-meta.xml",
+    "targetDir": "/objects/Metadata_Driven_Trigger__mdt/fields/"
+  },
+  "ExecutionOrderField.txt": {
+    "name": "Execution_Order__c",
+    "fileType": ".field-meta.xml",
+    "targetDir": "/objects/Metadata_Driven_Trigger__mdt/fields/"
+  },
+  "ObjectField.txt": {
+    "name": "Object__c",
+    "fileType": ".field-meta.xml",
+    "targetDir": "/objects/Metadata_Driven_Trigger__mdt/fields/"
+  },
+  "TriggerCustomMetadataLayout.txt": {
+    "name": "Metadata_Driven_Trigger__mdt-Metadata Driven Trigger Layout",
+    "fileType": ".layout-meta.xml",
+    "targetDir": "/layout/"
+  },
+  "DisabledForCustomMetadata.txt": {
+    "name": "Disabled_For__mdt",
+    "fileType": ".object-meta.xml",
+    "targetDir": "/objects/"
+  },
+  "MetadataDrivenTriggerField.txt": {
+    "name": "Metadata_Driven_Trigger__c",
+    "fileType": ".field-meta.xml",
+    "targetDir": "/objects/Disabled_For__mdt/fields/"
+  },
+  "UserNameField.txt": {
+    "name": "User_Name__c",
+    "fileType": ".field-meta.xml",
+    "targetDir": "/objects/Disabled_For__mdt/fields/"
+  },
+  "DisabledForCustomMetadataLayout.txt": {
+    "name": "Disabled_For__mdt-Disabled For Layout",
+    "fileType": ".layout-meta.xml",
+    "targetDir": "/layout/"
+  },
+  "TriggerHandlerVirtualClass.txt": {
+    "name": "TriggerHandler",
+    "fileType": ".cls",
+    "targetDir": "/classes/"
+  },
+  "MetadataTriggerHandler.txt": {
+    "name": "MetadataTriggerHandler",
+    "fileType": ".cls",
+    "targetDir": "/classes/"
+  },
+  "MetadataTriggerService.txt": {
+    "name": "MetadataTriggerService",
+    "fileType": ".cls",
+    "targetDir": "/classes/"
+  },
+  "TriggerHandlerVirtualClassTest.txt": {
+    "name": "TriggerHandler_Test",
+    "fileType": ".cls",
+    "targetDir": "/classes/"
+  },
+  "MetadataTriggerHandlerTest.txt": {
+    "name": "MetadataTriggerHandler_Tests",
+    "fileType": ".cls",
+    "targetDir": "/classes/"
+  },
+  "MetadataTriggerServiceTest.txt": {
+    "name": "MetadataTriggerService_Tests",
+    "fileType": ".cls",
+    "targetDir": "/classes/"
+  },
+  "TestDouble.txt": {
+    "name": "TestDouble",
+    "fileType": ".cls",
+    "targetDir": "/classes/"
+  },
+  "TestHelper.txt": {
+    "name": "TestHelper",
+    "fileType": ".cls",
+    "targetDir": "/classes/"
+  }
+}

@@ -1,15 +1,17 @@
 {
   "BypassCustomObject.txt": {
-    "type": "object",
     "name": "BypassAutomation__c",
-    "init": true
+    "fileType": ".object-meta.xml",
+    "targetDir": "/objects/"
   },
   "TriggerHandlerVirtualClass.txt": {
-    "type": "class",
-    "name": "TriggerHandler"
+    "name": "TriggerHandler",
+    "fileType": ".cls",
+    "targetDir": "/classes/"
   },
   "TriggerHandlerVirtualClass_Test.txt": {
-    "type": "class",
-    "name": "TriggerHandler_Test"
+    "name": "TriggerHandler_Test",
+    "fileType": ".cls",
+    "targetDir": "/classes/"
   }
 }

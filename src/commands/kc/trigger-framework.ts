@@ -37,7 +37,7 @@ export default class KcTriggerFramework extends SfCommand<KcTriggerFrameworkResu
     template: Flags.option({
       summary: messages.getMessage('flags.template.summary'),
       char: 't',
-      options: ['1'] as const,
+      options: ['1', '2'] as const,
       exactlyOne: ['template', 'custom-template'],
     })(),
     'custom-template': Flags.directory({
@@ -69,6 +69,10 @@ export default class KcTriggerFramework extends SfCommand<KcTriggerFrameworkResu
         break;
       case '1':
         templateDir = path.resolve(dirname, defaultTemplateDir.concat('template-1/'));
+        createdFiles = generateTemplates(targetDir, templateDir, init, sobjects);
+        break;
+      case '2':
+        templateDir = path.resolve(dirname, defaultTemplateDir.concat('template-2/'));
         createdFiles = generateTemplates(targetDir, templateDir, init, sobjects);
         break;
 

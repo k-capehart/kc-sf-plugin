@@ -1,8 +1,8 @@
 {
-  "BypassCustomField.txt": {
-    "name": "{{sobject}}__c",
-    "fileType": ".field-meta.xml",
-    "targetDir": "/objects/BypassAutomation__c/fields/"
+  "SObjectCustomMetadataRecord.txt": {
+    "name": "Metadata_Driven_Trigger__mdt.{{sobject}}",
+    "fileType": ".md-meta.xml",
+    "targetDir": "/customMetadata/"
   },
   "SObjectTrigger.txt": {
     "name": "{{sobject}}Trigger",
