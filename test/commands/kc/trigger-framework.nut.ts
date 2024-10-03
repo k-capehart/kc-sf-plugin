@@ -28,7 +28,7 @@ describe('kc apex-factory trigger-framework trigger network tests', () => {
     );
     assert.file(
       ['BypassAutomation__c.object-meta.xml'].map((f) =>
-        path.join(session.project.dir.concat('/force-app/main/default/objects/BypassAutomation__c'), f)
+        path.join(session.project.dir.concat('/force-app/main/default/objects'), f)
       )
     );
   });

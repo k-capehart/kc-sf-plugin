@@ -3,7 +3,7 @@ import * as path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { Messages } from '@salesforce/core';
 import { Ux } from '@salesforce/sf-plugins-core';
-import { ApexFileType, JsonData, TemplateFiles, apiVersion } from './types.js';
+import { JsonData, TemplateFiles, apiVersion } from './types.js';
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
@@ -11,50 +11,6 @@ const sharedTemplates = path.resolve(dirname, '../templates/shared/');
 const ux = new Ux();
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
 const apexFactoryMessages = Messages.loadMessages('kc-sf-plugin', 'apexFactory');
-
-export const generateTemplate = (targetDir: string, templateDir: string, init: boolean, sobject?: string): string[] => {
-  const createdFiles: string[] = [];
-  const classesDir = targetDir.concat('/classes/');
-  const triggersDir = targetDir.concat('/triggers/');
-  const customObjectDir = targetDir.concat('/objects/');
-
-  let instructions: string;
-  const tokens = new Map<string, string>();
-  if (sobject !== undefined) {
-    tokens.set('{{sobject}}', sobject);
-    instructions = path.resolve(templateDir, 'sobject.json');
-  } else {
-    instructions = path.resolve(templateDir, 'init.json');
-  }
-  const data = fs.readFileSync(instructions, 'utf-8');
-  const jsonData = JSON.parse(data) as JsonData;
-
-  for (const [template, details] of Object.entries(jsonData)) {
-    let fileName: string = details.name;
-    for (const [key, val] of tokens) {
-      fileName = fileName.replaceAll(key, val);
-    }
-
-    switch (details.type) {
-      case 'class':
-        createdFiles.push(createApexFile(template, fileName, classesDir, details.type, tokens, templateDir));
-        break;
-      case 'trigger':
-        createdFiles.push(createApexFile(template, fileName, triggersDir, details.type, tokens, templateDir));
-        break;
-      case 'object':
-        createdFiles.push(createCustomObject(template, fileName, customObjectDir, tokens, templateDir));
-        break;
-      case 'field':
-        createdFiles.push(createField(template, fileName, details.object, customObjectDir, tokens, templateDir));
-        break;
-      default:
-        break;
-    }
-  }
-
-  return [''];
-};
 
 export const generateTemplates = (
   targetDir: string,
@@ -75,98 +31,88 @@ export const generateTemplates = (
   return createdFiles;
 };
 
-export const createApexFile = (
+export const generateTemplate = (sfdxDir: string, templateDir: string, init: boolean, sobject?: string): string[] => {
+  const createdFiles: string[] = [];
+
+  let instructions: string;
+  const tokens = new Map<string, string>();
+  if (sobject !== undefined) {
+    tokens.set('{{sobject}}', sobject);
+    instructions = path.resolve(templateDir, 'sobject.json');
+  } else {
+    instructions = path.resolve(templateDir, 'init.json');
+  }
+  const data = fs.readFileSync(instructions, 'utf-8');
+  const jsonData = JSON.parse(data) as JsonData;
+
+  for (const [template, details] of Object.entries(jsonData)) {
+    if(details.fileType === undefined || details.targetDir === undefined || details.name === undefined) {
+      ux.warn('Make sure to include all required fields in template: fileType, targetDir, name');
+      return [''];
+    }
+
+    let fileName: string = details.name;
+    for (const [key, val] of tokens) {
+      fileName = fileName.replaceAll(key, val);
+    }
+    const targetDir: string = sfdxDir.concat(details.targetDir);
+    const fileType: string = details.fileType;
+
+    createdFiles.push(createFile(template, fileName, fileType, targetDir, tokens, templateDir));
+  }
+
+  return [''];
+};
+
+export const createFile = (
   template: string,
-  name: string,
+  fileName: string,
+  fileType: string,
   targetDir: string,
-  type: ApexFileType,
   tokens: Map<string, string>,
   templateDir: string
 ): string => {
-  const apexTemplate = path.resolve(templateDir, template);
-  let apexDefTemplate: string;
-  let outputFileName: string;
-
-  if (type === 'class') {
-    apexDefTemplate = path.resolve(sharedTemplates, TemplateFiles.ApexClassDefinition);
-    outputFileName = name.concat('.cls');
-  } else {
-    apexDefTemplate = path.resolve(sharedTemplates, TemplateFiles.ApexTriggerDefinition);
-    outputFileName = name.concat('.trigger');
-  }
-  const apexDefContent = fs.readFileSync(apexDefTemplate, 'utf-8').replaceAll('{{apiVersion}}', apiVersion);
-  let apexTemplateContent = fs.readFileSync(apexTemplate, 'utf-8');
+  const templatePath = path.resolve(templateDir, template);
+  let templateContent = fs.readFileSync(templatePath, 'utf-8');
   for (const [key, val] of tokens) {
-    apexTemplateContent = apexTemplateContent.replaceAll(key, val);
+    templateContent = templateContent.replaceAll(key, val);
   }
 
   verifyDirectory(targetDir);
-  const outputDir = targetDir.concat(outputFileName);
+   // if the file type is an apex class or trigger, then create a definition file
+  createApexDefinitionFile(fileType, fileName, targetDir);
+  
+  const outputDir = targetDir.concat(fileName).concat(fileType);
   if (!fs.existsSync(outputDir)) {
-    fs.writeFileSync(outputDir, apexTemplateContent);
-    fs.writeFileSync(outputDir.concat('-meta.xml'), apexDefContent);
+    fs.writeFileSync(outputDir, templateContent);
     ux.log(apexFactoryMessages.getMessage('file.created', [outputDir]));
-    return outputFileName;
+    return outputDir;
   } else {
     ux.log(apexFactoryMessages.getMessage('file.exists', [outputDir]));
   }
   return '';
 };
 
-export const createCustomObject = (
-  template: string,
-  objectName: string,
+export const createApexDefinitionFile = (
+  fileType: string,
+  fileName: string,
   targetDir: string,
-  tokens: Map<string, string>,
-  templateDir: string
-): string => {
-  const outputFileName = objectName.concat('.object-meta.xml');
-  const objectTemplate = path.resolve(templateDir, template);
-  let objectTemplateContent = fs.readFileSync(objectTemplate, 'utf-8');
-  for (const [key, val] of tokens) {
-    objectTemplateContent = objectTemplateContent.replaceAll(key, val);
-  }
-
-  let outputDir = targetDir.concat(objectName);
-  verifyDirectory(outputDir);
-  outputDir = outputDir.concat('/' + outputFileName);
-  if (!fs.existsSync(outputDir)) {
-    fs.writeFileSync(outputDir, objectTemplateContent);
-    ux.log(apexFactoryMessages.getMessage('file.created', [outputDir]));
-    return outputFileName;
+): void => {
+  let apexDefTemplate: string;
+  if(fileType === '.cls') {
+    apexDefTemplate = path.resolve(sharedTemplates, TemplateFiles.ApexClassDefinition);
+  } else if(fileType === '.trigger') {
+    apexDefTemplate = path.resolve(sharedTemplates, TemplateFiles.ApexTriggerDefinition);
   } else {
-    ux.log(apexFactoryMessages.getMessage('file.exists', [outputDir]));
-  }
-  return '';
-};
-
-export const createField = (
-  template: string,
-  fieldName: string,
-  object: string,
-  targetDir: string,
-  tokens: Map<string, string>,
-  templateDir: string
-): string => {
-  const outputFileName = fieldName.concat('.field-meta.xml');
-  const fieldTemplate = path.resolve(templateDir, template);
-  let fieldTemplateContent = fs.readFileSync(fieldTemplate, 'utf-8');
-  for (const [key, val] of tokens) {
-    fieldTemplateContent = fieldTemplateContent.replaceAll(key, val);
+    return;
   }
 
-  let outputDir = targetDir.concat(object).concat('/fields/');
-  verifyDirectory(outputDir);
-  outputDir = outputDir.concat(outputFileName);
-  if (!fs.existsSync(outputDir)) {
-    fs.writeFileSync(outputDir, fieldTemplateContent);
-    ux.log(apexFactoryMessages.getMessage('file.created', [outputDir]));
-    return outputFileName;
-  } else {
-    ux.log(apexFactoryMessages.getMessage('file.exists', [outputDir]));
+  const apexDefContent = fs.readFileSync(apexDefTemplate, 'utf-8').replaceAll('{{apiVersion}}', apiVersion);
+  const outputDir = targetDir.concat(fileName).concat(fileType).concat('-meta.xml');
+  if(!fs.existsSync(outputDir)) {
+    fs.writeFileSync(outputDir, apexDefContent);
   }
-  return '';
-};
+}
 
 const verifyDirectory = (directory: string): void => {
   if (!fs.existsSync(directory)) {
