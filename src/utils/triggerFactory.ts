@@ -46,7 +46,7 @@ export const generateTemplate = (sfdxDir: string, templateDir: string, init: boo
   const jsonData = JSON.parse(data) as JsonData;
 
   for (const [template, details] of Object.entries(jsonData)) {
-    if(details.fileType === undefined || details.targetDir === undefined || details.name === undefined) {
+    if (details.fileType === undefined || details.targetDir === undefined || details.name === undefined) {
       ux.warn('Make sure to include all required fields in template: fileType, targetDir, name');
       return [''];
     }
@@ -79,9 +79,9 @@ export const createFile = (
   }
 
   verifyDirectory(targetDir);
-   // if the file type is an apex class or trigger, then create a definition file
+  // if the file type is an apex class or trigger, then create a definition file
   createApexDefinitionFile(fileType, fileName, targetDir);
-  
+
   const outputDir = targetDir.concat(fileName).concat(fileType);
   if (!fs.existsSync(outputDir)) {
     fs.writeFileSync(outputDir, templateContent);
@@ -93,15 +93,11 @@ export const createFile = (
   return '';
 };
 
-export const createApexDefinitionFile = (
-  fileType: string,
-  fileName: string,
-  targetDir: string,
-): void => {
+export const createApexDefinitionFile = (fileType: string, fileName: string, targetDir: string): void => {
   let apexDefTemplate: string;
-  if(fileType === '.cls') {
+  if (fileType === '.cls') {
     apexDefTemplate = path.resolve(sharedTemplates, TemplateFiles.ApexClassDefinition);
-  } else if(fileType === '.trigger') {
+  } else if (fileType === '.trigger') {
     apexDefTemplate = path.resolve(sharedTemplates, TemplateFiles.ApexTriggerDefinition);
   } else {
     return;
@@ -109,10 +105,10 @@ export const createApexDefinitionFile = (
 
   const apexDefContent = fs.readFileSync(apexDefTemplate, 'utf-8').replaceAll('{{apiVersion}}', apiVersion);
   const outputDir = targetDir.concat(fileName).concat(fileType).concat('-meta.xml');
-  if(!fs.existsSync(outputDir)) {
+  if (!fs.existsSync(outputDir)) {
     fs.writeFileSync(outputDir, apexDefContent);
   }
-}
+};
 
 const verifyDirectory = (directory: string): void => {
   if (!fs.existsSync(directory)) {
