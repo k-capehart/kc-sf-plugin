@@ -22,7 +22,7 @@ After initializing, use the `--sobject` flag to add a given object to the framew
 
 The `--template` flag is used to choose which template to generate the apex code from. The available templates are:
 
-- 1 (default): https://github.com/k-capehart/kc-sf-plugin/tree/main/src/templates/template-1
+- 1 (default)
 
   - Based on: https://github.com/kevinohara80/sfdc-trigger-framework
     - Fork with extra features: https://github.com/k-capehart/sfdc-trigger-framework
@@ -32,7 +32,7 @@ The `--template` flag is used to choose which template to generate the apex code
   - Apex trigger, Handler, and Helper class for a Salesforce object
   - Apex test classes
 
-- 2: https://github.com/k-capehart/kc-sf-plugin/tree/main/src/templates/template-2
+- 2
 
   - Based on: https://github.com/trailheadapps/apex-recipes
   - 2 Custom Metadata objects: Metadata_Driven_Trigger and Disabled_For
@@ -42,9 +42,9 @@ The `--template` flag is used to choose which template to generate the apex code
 
 If you want to create a custom template, then use the `--custom-template` flag. The value given to the flag should be the path to a directory containing templates for classes, triggers, objects, etc. The directory should contain a `init.json` and `sobject.json` that provide instructions on which files to use. There are 3 required fields for each template:
 
-- `name`: The API name for the component (i.e. `TriggerHandler` or `Enabled\_\_c`)
+- `name`: The API name for the component (i.e. `TriggerHandler` or `Enabled__c`)
 - `fileType`: The file extension for the component (i.e. `.cls` or `.field-meta.xml`)
-- `targetDir`: The file path within a salesforce dx project where the component should be created (i.e. `/classes/` or `/objects/Metadata_Driven_Trigger__mdt/fields/`)
+- `targetDir`: The file path within a salesforce dx project where the component should be created (i.e. `/classes/`, `/objects/Metadata_Driven_Trigger__mdt/fields/`)
 
 `init.json` is used with the `--init` flag. `sobject.json` is used with the `--sobject` flag.
 
