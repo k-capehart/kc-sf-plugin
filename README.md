@@ -93,9 +93,8 @@ For more template examples: https://github.com/k-capehart/kc-sf-plugin/tree/main
 ## Commands
 
 <!-- commands -->
-
-- [`sf kc diff`](#sf-kc-diff)
-- [`sf kc trigger-framework`](#sf-kc-trigger-framework)
+* [`sf kc diff`](#sf-kc-diff)
+* [`sf kc trigger-framework`](#sf-kc-trigger-framework)
 
 ## `sf kc diff`
 
@@ -138,7 +137,7 @@ FLAG DESCRIPTIONS
     Ignore files by placing them in your .forceignore and using this flag.
 ```
 
-_See code: [src/commands/kc/diff.ts](https://github.com/k-capehart/kc-sf-plugin/blob/1.4.9/src/commands/kc/diff.ts)_
+_See code: [src/commands/kc/diff.ts](https://github.com/k-capehart/kc-sf-plugin/blob/1.4.10/src/commands/kc/diff.ts)_
 
 ## `sf kc trigger-framework`
 
@@ -146,7 +145,7 @@ Generate apex trigger frameworks based on templates.
 
 ```
 USAGE
-  $ sf kc trigger-framework [--json] [--flags-dir <value>] [-d <value>] [-i] [-s <value>...] [-t 1] [--custom-template
+  $ sf kc trigger-framework [--json] [--flags-dir <value>] [-d <value>] [-i] [-s <value>...] [-t 1|2] [--custom-template
     <value>]
 
 FLAGS
@@ -154,7 +153,7 @@ FLAGS
   -i, --init                     Initialize the trigger framework for the given template.
   -s, --sobject=<value>...       The name of the SObject that the trigger and classes will be created for.
   -t, --template=<option>        The template that should be used to generate the trigger framework.
-                                 <options: 1>
+                                 <options: 1|2>
       --custom-template=<value>  The directory in which the custom templates are located. View docs for more information
                                  on creating templates: https://github.com/k-capehart/kc-sf-plugin
 
@@ -165,7 +164,7 @@ GLOBAL FLAGS
 DESCRIPTION
   Generate apex trigger frameworks based on templates.
 
-  Given an SObject, creates a Trigger and accompanying handler classes and components.
+  Given an SObject, creates a Trigger and related components.
 
   Use the `--init` flag to initialize the framework, then the `--sobject` flag to create triggers based on the
   framework.
@@ -179,8 +178,7 @@ EXAMPLES
   $ sf kc trigger-framework --custom-template templates/ --sobject Account
 ```
 
-_See code: [src/commands/kc/trigger-framework.ts](https://github.com/k-capehart/kc-sf-plugin/blob/1.4.9/src/commands/kc/trigger-framework.ts)_
-
+_See code: [src/commands/kc/trigger-framework.ts](https://github.com/k-capehart/kc-sf-plugin/blob/1.4.10/src/commands/kc/trigger-framework.ts)_
 <!-- commandsstop -->
 
 ## Build
