@@ -82,10 +82,7 @@ describe('kc apex-factory trigger-framework trigger', () => {
     );
     expect(result).to.equal(targetDir.concat('Account__c.field-meta.xml'));
     assert.file(path.join(targetDir, 'Account__c.field-meta.xml'));
-    assert.fileContent(
-      path.join(targetDir, 'Account__c.field-meta.xml'),
-      'Account__c'
-    );
+    assert.fileContent(path.join(targetDir, 'Account__c.field-meta.xml'), 'Account__c');
   });
 
   it('does not create a custom field because it already exists', async () => {

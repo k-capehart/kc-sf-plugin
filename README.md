@@ -4,6 +4,13 @@
 
 This plugin is bundled with the [Salesforce CLI](https://developer.salesforce.com/tools/sfdxcli). For more information on the CLI, read the [getting started guide](https://developer.salesforce.com/docs/atlas.en-us.sfdx_setup.meta/sfdx_setup/sfdx_setup_intro.htm).
 
+## Contents
+
+- [Install](#install)
+- [Trigger-Framework](#trigger-framework)
+- [List of Commands](#list-of-commands)
+- [Build](#build)
+
 ## Install
 
 ```bash
@@ -90,11 +97,12 @@ Running the command: `sf kc trigger-framework --custom-template templates/ --sob
 
 For more template examples: https://github.com/k-capehart/kc-sf-plugin/tree/main/src/templates/
 
-## Commands
+## List of Commands
 
 <!-- commands -->
-* [`sf kc diff`](#sf-kc-diff)
-* [`sf kc trigger-framework`](#sf-kc-trigger-framework)
+
+- [`sf kc diff`](#sf-kc-diff)
+- [`sf kc trigger-framework`](#sf-kc-trigger-framework)
 
 ## `sf kc diff`
 
@@ -179,6 +187,7 @@ EXAMPLES
 ```
 
 _See code: [src/commands/kc/trigger-framework.ts](https://github.com/k-capehart/kc-sf-plugin/blob/1.4.10/src/commands/kc/trigger-framework.ts)_
+
 <!-- commandsstop -->
 
 ## Build
