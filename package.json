@@ -1,7 +1,7 @@
 {
   "name": "kc-sf-plugin",
   "description": "Various commands for enabling salesforce development, including automated apex trigger framework generation.",
-  "version": "1.4.10",
+  "version": "1.4.11",
   "publishConfig": {
     "registry": "https://registry.npmjs.org",
     "access": "public"

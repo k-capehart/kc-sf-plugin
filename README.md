@@ -100,9 +100,9 @@ For more template examples: https://github.com/k-capehart/kc-sf-plugin/tree/main
 ## List of Commands
 
 <!-- commands -->
-
-- [`sf kc diff`](#sf-kc-diff)
-- [`sf kc trigger-framework`](#sf-kc-trigger-framework)
+* [`sf kc diff`](#sf-kc-diff)
+* [`sf kc trigger-framework`](#sf-kc-trigger-framework)
+* [`sf kc update-api`](#sf-kc-update-api)
 
 ## `sf kc diff`
 
@@ -145,7 +145,7 @@ FLAG DESCRIPTIONS
     Ignore files by placing them in your .forceignore and using this flag.
 ```
 
-_See code: [src/commands/kc/diff.ts](https://github.com/k-capehart/kc-sf-plugin/blob/1.4.10/src/commands/kc/diff.ts)_
+_See code: [src/commands/kc/diff.ts](https://github.com/k-capehart/kc-sf-plugin/blob/1.4.11/src/commands/kc/diff.ts)_
 
 ## `sf kc trigger-framework`
 
@@ -186,8 +186,43 @@ EXAMPLES
   $ sf kc trigger-framework --custom-template templates/ --sobject Account
 ```
 
-_See code: [src/commands/kc/trigger-framework.ts](https://github.com/k-capehart/kc-sf-plugin/blob/1.4.10/src/commands/kc/trigger-framework.ts)_
+_See code: [src/commands/kc/trigger-framework.ts](https://github.com/k-capehart/kc-sf-plugin/blob/1.4.11/src/commands/kc/trigger-framework.ts)_
 
+## `sf kc update-api`
+
+Update the API version of Apex classes, triggers, and flows.
+
+```
+USAGE
+  $ sf kc update-api -t classes|triggers|flows... -v <value> [--json] [--flags-dir <value>] [-d <value>]
+
+FLAGS
+  -d, --target-dir=<value>   [default: force-app/main/default] The target directory for your salesforce project.
+  -t, --type=<option>...     (required) The component type whose API version should be updated.
+                             <options: classes|triggers|flows>
+  -v, --api-version=<value>  (required) The minimum required API version that components should satisfy.
+
+GLOBAL FLAGS
+  --flags-dir=<value>  Import flag values from a directory.
+  --json               Format output as json.
+
+DESCRIPTION
+  Update the API version of Apex classes, triggers, and flows.
+
+  Parse through a SFDX project and update the API version for Apex classes, triggers and flows to a specified version.
+  The API version must be a valid version that is not deprecated.
+
+EXAMPLES
+  Update all apex classes and triggers to be at least version 61.0.
+  - sf kc update-api --type classes --type triggers --api-version 61.0
+
+FLAG DESCRIPTIONS
+  -v, --api-version=<value>  The minimum required API version that components should satisfy.
+
+    Override the api version used for api requests made by this command
+```
+
+_See code: [src/commands/kc/update-api.ts](https://github.com/k-capehart/kc-sf-plugin/blob/1.4.11/src/commands/kc/update-api.ts)_
 <!-- commandsstop -->
 
 ## Build
