@@ -30,7 +30,7 @@ export default class KcUpdateApi extends SfCommand<KcUpdateApiResult> {
       options: ['classes', 'triggers', 'flows'] as string[],
     })(),
     'api-version': Flags.orgApiVersion({
-      summary: messages.getMessage('flags.type.api-version'),
+      summary: messages.getMessage('flags.api-version.summary'),
       char: 'v',
       required: true,
     }),

@@ -20,6 +20,6 @@ Update all apex classes and triggers to be at least version 61.0.
 
 The component type whose API version should be updated.
 
-# flags.type.api-version
+# flags.api-version.summary
 
-The minimum required API version that components should be updated to satisfy.
+The minimum required API version that components should satisfy.
