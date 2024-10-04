@@ -37,7 +37,7 @@ describe('kc update-api', () => {
     const filename = fileURLToPath(import.meta.url);
     const fileDirName = dirname(filename);
     const xmlFilesPath = join(fileDirName, '../../xml');
-    const xmlBackupPath = join(fileDirName, '../../xmlBackup');
+    const xmlBackupPath = join(fileDirName, '../../backup');
 
     beforeEach(async () => {
       try {
