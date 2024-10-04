@@ -98,7 +98,7 @@
       ]
     },
     "compile": {
-      "command": "tsc -p . --pretty --incremental",
+      "command": "tsc -p . --pretty --incremental && cp -r src/templates/ lib/templates/ && cp -r test/xml lib/test/xml && mkdir lib/test/xmlBackup",
       "files": [
         "src/**/*.ts",
         "**/tsconfig.json",
