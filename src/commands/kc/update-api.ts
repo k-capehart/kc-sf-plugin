@@ -38,17 +38,17 @@ export default class KcUpdateApi extends SfCommand<KcUpdateApiResult> {
 
   public async run(): Promise<KcUpdateApiResult> {
     const { flags } = await this.parse(KcUpdateApi);
+    let updatedNumber = 0;
 
     const targetDir = flags['target-dir'];
     if (!fs.existsSync(targetDir)) {
       this.warn(targetDir + ' does not exist');
       return {
-        updatedNumber: 0,
+        updatedNumber,
       };
     }
 
     const apiVersion = flags['api-version'];
-    let updatedNumber = 0;
 
     // multiple types can be specified, so loop through all of them
     flags['type'].forEach((type) => {
@@ -56,15 +56,14 @@ export default class KcUpdateApi extends SfCommand<KcUpdateApiResult> {
       if (!fs.existsSync(componentDir)) {
         this.warn(componentDir + ' does not exist');
         return {
-          updatedNumber: 0,
+          updatedNumber,
         };
       }
-
       updatedNumber = updatedNumber + updateAPIVersion(componentDir, apiVersion);
     });
 
     return {
-      updatedNumber: 0,
+      updatedNumber,
     };
   }
 }

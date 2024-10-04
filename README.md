@@ -4,6 +4,13 @@
 
 This plugin is bundled with the [Salesforce CLI](https://developer.salesforce.com/tools/sfdxcli). For more information on the CLI, read the [getting started guide](https://developer.salesforce.com/docs/atlas.en-us.sfdx_setup.meta/sfdx_setup/sfdx_setup_intro.htm).
 
+## Contents
+
+- [Install](#install)
+- [Trigger-Framework](#trigger-framework)
+- [List of Commands](#list-of-commands)
+- [Build](#build)
+
 ## Install
 
 ```bash
@@ -90,33 +97,7 @@ Running the command: `sf kc trigger-framework --custom-template templates/ --sob
 
 For more template examples: https://github.com/k-capehart/kc-sf-plugin/tree/main/src/templates/
 
-## API Version Management
-
-Automatically update the API version for Salesforce components such as Apex classes, triggers, and flows. Specify a component type (or multiple) and a minimum API version that should be satisfied.
-
-For example, if you want to update all classes, triggers, and flows to be at least version 61.0, then run the following command within a SFDX directory.
-
-`sf kc update-api --type classes --type triggers --type flows --api-version 61.0`
-
-Specifying deprecated API versions will throw an error.
-
-## Preview Project Diff
-
-Combine the output of a retrieval preview and deploy preview into one command. The org must have source tracking enabled. Source tracking isn’t supported and can’t be enabled for Partial Copy sandboxes, Full sandboxes, or Developer Edition orgs.
-
-https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_setup_enable_source_tracking_sandboxes.htm
-
-Instead of running both of these commands:
-
-`sf project deploy preview`
-
-`sf project retrieve preview`
-
-You can now combine the output into one command:
-
-`sf kc diff`
-
-## Commands
+## List of Commands
 
 <!-- commands -->
 
