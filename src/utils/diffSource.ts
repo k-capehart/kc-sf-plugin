@@ -112,7 +112,6 @@ const getWillDelete = (files: PreviewFile[]): PreviewFile[] =>
   files.filter(willGo).filter((f) => f.operation && ['deletePre', 'deletePost'].includes(f.operation));
 
 // relative paths are easier on tables
-const columns = { type: {}, fullName: {}, projectRelativePath: { header: 'Path' } };
 const makeKey = ({ type, fullName }: { type: MetadataType; fullName: string }): string => `${type.name}#${fullName}`;
 
 export const compileResults = ({
@@ -229,13 +228,19 @@ const printDeployTable = (files: PreviewFile[], deletedFiles: PreviewFile[]): vo
     );
     if (files.length !== 0) {
       ux.log(chalk.dim(messages.getMessage('deployChanges.header', [files.length])));
-      ux.table<PreviewFile>(files, columns);
+      ux.table<PreviewFile>({
+        data: files,
+        columns: ['type', 'fullName', { key: 'projectRelativePath', name: 'Path' }],
+      });
     } else {
       ux.log(chalk.dim(messages.getMessage('deployChanges.none')));
     }
     if (deletedFiles.length !== 0) {
       ux.log(chalk.dim(messages.getMessage('deployDeletes.header', [deletedFiles.length])));
-      ux.table<PreviewFile>(deletedFiles, columns);
+      ux.table<PreviewFile>({
+        data: deletedFiles,
+        columns: ['type', 'fullName', { key: 'projectRelativePath', name: 'Path' }],
+      });
     } else {
       ux.log(chalk.dim(messages.getMessage('deployDeletes.none')));
     }
@@ -253,13 +258,19 @@ const printRetrieveTable = (files: PreviewFile[], deletedFiles: PreviewFile[]): 
     );
     if (files.length !== 0) {
       ux.log(chalk.dim(messages.getMessage('retrieveChanges.header', [files.length])));
-      ux.table<PreviewFile>(files, columns);
+      ux.table<PreviewFile>({
+        data: files,
+        columns: ['type', 'fullName', { key: 'projectRelativePath', name: 'Path' }],
+      });
     } else {
       ux.log(chalk.dim(messages.getMessage('retrieveChanges.none')));
     }
     if (deletedFiles.length !== 0) {
       ux.log(chalk.dim(messages.getMessage('retrieveDeletes.header', [deletedFiles.length])));
-      ux.table<PreviewFile>(deletedFiles, columns);
+      ux.table<PreviewFile>({
+        data: deletedFiles,
+        columns: ['type', 'fullName', { key: 'projectRelativePath', name: 'Path' }],
+      });
     } else {
       ux.log(chalk.dim(messages.getMessage('retrieveDeletes.none')));
     }
@@ -272,7 +283,11 @@ const printConflictsTable = (files: PreviewFile[]): void => {
     ux.log(chalk.dim(messages.getMessage('conflicts.none')));
   } else {
     ux.log(StandardColors.error(chalk.bold(messages.getMessage('conflicts.header', [files.length]))));
-    ux.table<PreviewFile>(files, columns, { sort: 'path' });
+    ux.table<PreviewFile>({
+      data: files,
+      columns: ['type', 'fullName', { key: 'projectRelativePath', name: 'Path' }],
+      sort: { path: 'asc' },
+    });
   }
 };
 
@@ -282,7 +297,11 @@ const printIgnoredTable = (files: PreviewFile[]): void => {
     ux.log(chalk.dim(messages.getMessage('ignored.none')));
   } else {
     ux.log(chalk.dim(messages.getMessage('ignored.header', [files.length, 'change'])));
-    ux.table<PreviewFile>(files, columns, { sort: 'path' });
+    ux.table<PreviewFile>({
+      data: files,
+      columns: ['type', 'fullName', { key: 'projectRelativePath', name: 'Path' }],
+      sort: { path: 'asc' },
+    });
   }
 };
 

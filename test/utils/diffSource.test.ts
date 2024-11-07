@@ -116,25 +116,29 @@ describe('diff table', () => {
   it('prints output table', () => {
     printTables(mockRetrievePreviewOutput, mockDeployPreviewOutput);
     expect(tableStub.callCount).to.equal(6);
-    expect(tableStub.firstCall.args[0]).to.deep.equal([
-      {
-        fullName: 'test',
-        type: 'PermissionSet',
-        conflict: true,
-        ignored: false,
-        path: 'force-app',
-        projectRelativePath: 'force-app',
-        operation: 'retrieve',
-      },
-      {
-        fullName: 'test',
-        type: 'PermissionSet',
-        conflict: true,
-        ignored: false,
-        path: 'force-app',
-        projectRelativePath: 'force-app',
-        operation: 'deploy',
-      },
-    ]);
+    expect(tableStub.firstCall.args[0]).to.deep.equal({
+      data: [
+        {
+          fullName: 'test',
+          type: 'PermissionSet',
+          conflict: true,
+          ignored: false,
+          path: 'force-app',
+          projectRelativePath: 'force-app',
+          operation: 'retrieve',
+        },
+        {
+          fullName: 'test',
+          type: 'PermissionSet',
+          conflict: true,
+          ignored: false,
+          path: 'force-app',
+          projectRelativePath: 'force-app',
+          operation: 'deploy',
+        },
+      ],
+      columns: ['type', 'fullName', { key: 'projectRelativePath', name: 'Path' }],
+      sort: { path: 'asc' },
+    });
   });
 });

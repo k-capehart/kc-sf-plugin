@@ -3,9 +3,7 @@
   "compilerOptions": {
     "outDir": "lib",
     "rootDir": "src",
-    "lib": [
-      "ES2021.String"
-    ]
+    "lib": ["ES2021.String"]
   },
   "include": ["./src/**/*.ts"]
 }
