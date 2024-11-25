@@ -1,3 +1,12 @@
+## [1.4.13](https://github.com/k-capehart/kc-sf-plugin/compare/1.4.12...1.4.13) (2024-11-25)
+
+
+### Bug Fixes
+
+* **deps:** bump cross-spawn from 7.0.3 to 7.0.6 ([#63](https://github.com/k-capehart/kc-sf-plugin/issues/63)) ([e95db42](https://github.com/k-capehart/kc-sf-plugin/commit/e95db42862c001fb41098fb706aab9864de89e83))
+
+
+
 ## [1.4.12](https://github.com/k-capehart/kc-sf-plugin/compare/1.4.11...1.4.12) (2024-11-07)
 
 

@@ -145,7 +145,7 @@ FLAG DESCRIPTIONS
     Ignore files by placing them in your .forceignore and using this flag.
 ```
 
-_See code: [src/commands/kc/diff.ts](https://github.com/k-capehart/kc-sf-plugin/blob/1.4.12/src/commands/kc/diff.ts)_
+_See code: [src/commands/kc/diff.ts](https://github.com/k-capehart/kc-sf-plugin/blob/1.4.13/src/commands/kc/diff.ts)_
 
 ## `sf kc trigger-framework`
 
@@ -186,7 +186,7 @@ EXAMPLES
   $ sf kc trigger-framework --custom-template templates/ --sobject Account
 ```
 
-_See code: [src/commands/kc/trigger-framework.ts](https://github.com/k-capehart/kc-sf-plugin/blob/1.4.12/src/commands/kc/trigger-framework.ts)_
+_See code: [src/commands/kc/trigger-framework.ts](https://github.com/k-capehart/kc-sf-plugin/blob/1.4.13/src/commands/kc/trigger-framework.ts)_
 
 ## `sf kc update-api`
 
@@ -222,7 +222,7 @@ FLAG DESCRIPTIONS
     Override the api version used for api requests made by this command
 ```
 
-_See code: [src/commands/kc/update-api.ts](https://github.com/k-capehart/kc-sf-plugin/blob/1.4.12/src/commands/kc/update-api.ts)_
+_See code: [src/commands/kc/update-api.ts](https://github.com/k-capehart/kc-sf-plugin/blob/1.4.13/src/commands/kc/update-api.ts)_
 <!-- commandsstop -->
 
 ## Build
