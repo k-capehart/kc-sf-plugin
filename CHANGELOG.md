@@ -1,3 +1,12 @@
+## [1.4.16](https://github.com/k-capehart/kc-sf-plugin/compare/1.4.15...1.4.16) (2025-02-28)
+
+
+### Bug Fixes
+
+* **deps:** bump the dependencies group with 10 updates ([#66](https://github.com/k-capehart/kc-sf-plugin/issues/66)) ([a8a6ad6](https://github.com/k-capehart/kc-sf-plugin/commit/a8a6ad6e1ce2c9ae40eff3c5e4879364e2f8e857))
+
+
+
 ## [1.4.15](https://github.com/k-capehart/kc-sf-plugin/compare/1.4.14...1.4.15) (2025-01-02)
 
 
