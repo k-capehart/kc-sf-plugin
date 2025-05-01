@@ -16,15 +16,15 @@
   },
   "homepage": "https://github.com/k-capehart/kc-sf-plugin",
   "dependencies": {
-    "@oclif/core": "^4.2.10",
-    "@salesforce/core": "^8.8.7",
+    "@oclif/core": "^4.3.0",
+    "@salesforce/core": "^8.10.1",
     "@salesforce/sf-plugins-core": "^12.2.1",
-    "@salesforce/source-deploy-retrieve": "^12.18.0",
-    "@salesforce/source-tracking": "^7.3.19",
+    "@salesforce/source-deploy-retrieve": "^12.19.3",
+    "@salesforce/source-tracking": "^7.3.23",
     "@salesforce/ts-sinon": "^1.4.30",
     "@salesforce/ts-types": "^2.0.12",
     "chalk": "^5.4.1",
-    "fast-xml-parser": "^5.0.9",
+    "fast-xml-parser": "^5.2.1",
     "fs-extra": "^11.3.0"
   },
   "devDependencies": {
@@ -33,11 +33,11 @@
     "@salesforce/dev-scripts": "^11.0.1",
     "@types/fs-extra": "^11.0.4",
     "@types/yeoman-assert": "^3.1.4",
-    "eslint-plugin-sf-plugin": "^1.20.18",
-    "oclif": "^4.17.42",
+    "eslint-plugin-sf-plugin": "^1.20.21",
+    "oclif": "^4.17.46",
     "shx": "0.4.0",
     "ts-node": "^10.9.2",
-    "typescript": "^5.8.2",
+    "typescript": "^5.8.3",
     "yeoman-assert": "^3.1.1"
   },
   "engines": {
