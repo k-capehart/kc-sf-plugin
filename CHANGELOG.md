@@ -1,3 +1,12 @@
+## [1.4.19](https://github.com/k-capehart/kc-sf-plugin/compare/1.4.18...1.4.19) (2025-07-22)
+
+
+### Bug Fixes
+
+* **deps:** bump form-data from 4.0.0 to 4.0.4 ([#81](https://github.com/k-capehart/kc-sf-plugin/issues/81)) ([7108071](https://github.com/k-capehart/kc-sf-plugin/commit/7108071686eecaebad925ca9bc4731be788d1143))
+
+
+
 ## [1.4.18](https://github.com/k-capehart/kc-sf-plugin/compare/1.4.17...1.4.18) (2025-04-10)
 
 
