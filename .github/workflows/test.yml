@@ -4,6 +4,9 @@ on:
     branches-ignore: [main]
   workflow_dispatch:
 
+env:
+  NODE_DISABLE_VERSIONS: '25' # disabled due to this bug https://github.com/forcedotcom/cli/issues/3434
+
 jobs:
   unit-tests:
     uses: salesforcecli/github-workflows/.github/workflows/unitTest.yml@main
