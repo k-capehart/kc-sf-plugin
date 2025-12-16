@@ -73,7 +73,7 @@ export const updateAPIVersion = (targetDir: string, version: string): number => 
         }
 
         if (isUpdated) {
-          const updatedXml = builder.build(component) as string;
+          const updatedXml = builder.build(component);
           // remove blank lines
           const cleanedXml = updatedXml.replace(/\n\s*\n/g, '\n');
           fs.writeFileSync(filePath, cleanedXml);
