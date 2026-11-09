@@ -5510,9 +5510,9 @@ isexe@^2.0.0:
   integrity sha512-RHxMLp9lnKHGHRng9QFhRCMbYAcVpn69smSGcq3f36xjgVVWThj4qqLbTLlq7Ssj8B+fIQ1EuCEGI2lKsyQeIw==
 
 isomorphic-git@^1.34.2:
-  version "1.36.1"
-  resolved "https://registry.yarnpkg.com/isomorphic-git/-/isomorphic-git-1.36.1.tgz#e73bcca745bfb66154921c4d3b2afdc40a6573a7"
-  integrity sha512-fC8SRT8MwoaXDK8G4z5biPEbqf2WyEJUb2MJ2ftSd39/UIlsnoZxLGux+lae0poLZO4AEcx6aUVOh5bV+P8zFA==
+  version "1.44.12"
+  resolved "https://registry.yarnpkg.com/isomorphic-git/-/isomorphic-git-1.44.12.tgz#621d2d52e991824ce72fcc1186f25db611f3be6b"
+  integrity sha512-Qfu5/YMcN1YyGqT3ZUmgFIlbj/bFwbwMbF4zlitrRGGyujyqtgMCOTy07mfca/iugH1ECpF6rlebFDceRs+MNg==
   dependencies:
     async-lock "^1.4.1"
     clean-git-ref "^2.0.1"
@@ -5522,7 +5522,6 @@ isomorphic-git@^1.34.2:
     minimisted "^2.0.0"
     pako "^1.0.10"
     pify "^4.0.1"
-    readable-stream "^4.0.0"
     sha.js "^2.4.12"
     simple-get "^4.0.1"
 
